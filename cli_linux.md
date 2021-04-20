@@ -1,6 +1,6 @@
-### find
+### Linux
 
-
+1. find
 - 해당 하위 폴더에 특정 구문이 존재 하는 파일 확인 
 ```
 grep "JupyterLab Light" ./*
@@ -9,12 +9,12 @@ grep "JupyterLab Light" ./*
 
 
 
-### storage 관련
+2. linuxstorage 관련
 
 
 
-
-### aws cli 이슈
+### AWS CLI
+1. aws cli 이슈
 - 에러 메시지
 ```
 Traceback (most recent call last):
@@ -31,4 +31,14 @@ ImportError: cannot import name 'docevents' from 'botocore.docs.bcdoc' (/home/ub
 ```
 export PYTHONPATH=/usr/local/lib/python3.8/dist-packages/
 ```
+
+
+
+#### superset
+
+```
+sudo superset run -p 8088 --with-threads --reload --debugger --host 0.0.0.0
+```
+
+
 
