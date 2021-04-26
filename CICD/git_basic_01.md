@@ -51,3 +51,16 @@ git push -f origin jooni77.lee
 
 
 ```
+
+
+senaio
+
+1. origin master 변경 commit
+2. local branch 변경 commit / push
+3. origin branch pull request -> confilct 발생
+4. local branch reset commit_id~1
+5. git push -f origin branch
+6. git pull origin master -> confilc 발생
+7. git stash -> git pull origin master -> git stash apply -> confilct 파일 확인
+8. 파일 수정 후 commit->push->pull request
+
