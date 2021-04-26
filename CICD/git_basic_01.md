@@ -38,5 +38,16 @@ git reset --hard origin/master  or git reset --hard origin master
 
 
 
-- conflict 이슈 처리 
+- pull request conflict 이슈 처리 
 
+```
+# local 
+git reset <commit_id>~1
+
+# local
+git push -f origin jooni77.lee
+
+# fetch origin master
+
+
+```
