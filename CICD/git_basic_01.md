@@ -23,6 +23,11 @@ Please commit your changes or stash them before you merge.
 Aborting
 ```
 
+git stash
+gir pull origin master
+git apply stash
+
+
 
 - conflict 이슈 처리 
 
