@@ -31,7 +31,7 @@ git apply stash
 -- local master로 pull 
 git fetch --all
 -- 현재 브런치를 master로 reset
-git reset --hard origin/master  or git reset --hard origin master
+git reset --hard origin/master
 
 ```
 
