@@ -25,7 +25,9 @@ Aborting
 
 ```
 git stash
+# git pull 은 git fetch + git merge
 gir pull origin master
+
 git apply stash
 
 -- local master로 pull 
