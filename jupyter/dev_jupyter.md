@@ -18,14 +18,11 @@ print (mpl.matplotlib_fname())
 ## extension
 
 - extension 설치 환경 설치 
+- jupyter notebook 재시작 
 ```
 pip install jupyter_contrib_nbextensions && jupyter contrib nbextension install 
 ```
 
-- 설치 관련
-```
-pip install jupyter_contrib_nbextensions      # 라이브러리 설치
-jupyter contrib nbextension install --user    # 쥬피터노트북에서 보일 수 있도록 등록
 
 ```
 - 설치 확인
