@@ -16,6 +16,19 @@ print (mpl.matplotlib_fname())
 ```
 
 ## extension
+- node.js 설치 
+```
+conda install -c conda-forge nodejs
+```
+
+- check extension tab
+- 필요한 extension 설치 
+
+
+1. jupyter lab 과 jupyter notebook 의 extension은 별도
+
+
+
 
 - extension 설치 환경 설치 
 - jupyter notebook 재시작 
