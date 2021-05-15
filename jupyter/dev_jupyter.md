@@ -14,3 +14,10 @@ font_list[:]
 ##설정 파일 위치 확인
 print (mpl.matplotlib_fname())
 ```
+
+## extension
+
+
+```
+jupyter labextension install @jupyterlab/plotly-extension
+```
