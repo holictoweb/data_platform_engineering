@@ -11,27 +11,6 @@ from pytz import timezone
 
 
 
-'''
-1) 태그가 제대로 안붙어 있는 instance는 launch 즉시 stop
-- ec2 lanching trigger 
-
-2) 자원 사용이 없는 instance는 주기적으로 스캔하여 stop, 담당자에게 notification 발송(메일 또는 sms)
-- time schedule ( daily? )
-
-3) 모든 instance는 LastLaunchDTTM(마지막 start 시점) + 3개월로 EOS 일자 자동 지정 + EOS 일자
-- time schedule ( daily )
-
-
-4) EOS 일자가 지나면 Termination Tag에 "O" flag을 담
-- time schedule
-
-
-5) 매주 일요일 Termination Tag가 "O"인 instance를 자동으로 Termination
-    ※ AWS Backup에 Termination Tag가 "O"인 instance을 자동으로 backup 하는 Rule 구성ZZ
-- time schedule ( weekly )
-
-'''
-
 ######################################################################
 # 예외 대상
 except_target = ['mfas-oregon-private-emr-dev', 'mfas-oregon-private-emr-qa', 'mfas-oregon-private-emr-prod']
