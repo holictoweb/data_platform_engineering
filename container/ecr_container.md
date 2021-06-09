@@ -21,7 +21,7 @@ python                                                3.8.10-slim-buster   f2c36
 ```
 
 
-## aws ecr login 
+## aws ecr login and push 
 ```
 # ecr login 
 aws ecr get-login-password --region us-west-2|docker login --username AWS --password-stdin ${fullname}
