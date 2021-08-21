@@ -1,5 +1,31 @@
 ## git 
 
+0. git config --global user.name "joonik.lee"
+   git config --global user.email holictoweb@gmail.com
+1. mkdir A
+2. cd A 
+3. git init
+4. git remote add origin https://github.com/holictoweb/bitlab.git
+    - 원격 저장소 확인 
+
+
+### private repo 접근 방법
+
+- user명을 명시해서 진행 필요 
+git clone https://holictoweb@github.com/holictoweb/bitlab.git
+
+- token 발급
+우측상단 profile -> settings -> Developer Setting -> personal access tokens
+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
+
+- 하지만 아래 처럼 비밀번호는 더 이상 사용 할 수 없으며 token을 발급 받아 사용
+```
+holictoweb@DESKTOP-A2T3JAV:~$ git clone https://holictoweb@github.com/holictoweb/bitlab.git
+Cloning into 'bitlab'...
+remote: Support for password authentication was removed on August 13, 2021. Please use a personal access token instead.
+remote: Please see https://github.blog/2020-12-15-token-authentication-requirements-for-git-operations/ for more information.
+fatal: Authentication failed for 'https://github.com/holictoweb/bitlab.git/'
+```
 
 
 - pull origin master issue
