@@ -44,3 +44,55 @@ docker build -t {tag명} ./Dockerfile 경로
 ```
 docker image inspect f7de38042ce0
 ```
+
+
+
+
+########################################################################
+
+# docker 설치 
+
+
+```sh
+# 업데이트 진행 
+apt update & apt upgrade
+
+
+# 필수 패키지 설치 
+sudo apt-get install apt-transport-https ca-certificates curl gnupg-agent software-properties-common
+
+# GPG Key 인증
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+
+# arch 확인
+arch
+
+# repo 등록
+
+sudo add-apt-repository \
+"deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+$(lsb_release -cs) \
+stable"
+
+# Docker 설치를 위하 준비가 끝. 설치 진행
+sudo apt-get update && sudo apt-get install docker-ce docker-ce-cli containerd.io
+
+```
+
+# docker 실행
+
+- 데몬 수행
+
+``` sh
+# 권한 부여 기본적으로  root 권한이 필요 
+sudo usermod -aG docker $USER # 현재 접속중인 사용자에게 권한주기
+sudo usermod -aG docker your-user # your-user 사용자에게 권한주기
+
+# docker 등록 및 수행 
+sudo systemctl enable docker 
+sudo service docker start
+
+
+sudo service docker stop
+sudo service docker restart
+```
