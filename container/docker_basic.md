@@ -92,4 +92,7 @@ sudo service docker start
 
 sudo service docker stop
 sudo service docker restart
+
+# 위에 service로 실행 하는것과 아래 방식의 차이 확인 필요 
+sudo /etc/init.d/docker start 
 ```
