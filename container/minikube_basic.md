@@ -38,6 +38,9 @@ sudo apt-get install -y conntrack
 # 설치 상태 확인
 minikube status
 
+# 권한 설정 
+sudo usermod -aG docker $USER && newgrp docker
+
 # minikube 실행 
 # 실패 ? sudo minikube start --vm-driver=docker
 minikube start --driver=docker
