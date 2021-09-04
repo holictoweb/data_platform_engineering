@@ -2,8 +2,6 @@
 
 
 
-
-
 # Install MySQL
 
 - 설치 
@@ -33,3 +31,33 @@ sudo /usr/bin/mysql -u root -p
 
 ```
 
+
+
+# connection 
+
+1. pymysql 연결
+```python
+import pymysql
+
+#connect = pymysql.connect(host="", port=3306, user="", password="", db="")
+
+connection = pymysql.connect(host='fngo-ml-rds-dev.c6btgg8fszdb.ap-northeast-2.rds.amazonaws.com',
+                             user='mi_ro',
+                             password='aicel2021!',
+                             database='news',
+                             cursorclass=pymysql.cursors.DictCursor)
+
+# connect 에서 cursor 생성
+cursors = connection.cursor()
+
+# SQL문 실행
+sql = "select * from news.gn_news_nlp_job where flag='0'"
+cursors.execute(sql)
+
+# data fetch
+data = cursors.fetchall()
+print(data)
+# connection 닫기
+connection.close()
+
+```
