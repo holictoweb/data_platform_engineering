@@ -30,3 +30,14 @@ aws ecr get-login-password --region us-west-2|docker login --username AWS --pass
 docker push ${fullname}
 
 ```
+
+
+
+
+```bash 
+# simple login 
+aws ecr get-login-password --region ap-northeast-2| docker login --username AWS --password-stdin 445772965351.dkr.ecr.ap-northeast-2.amazonaws.com
+
+
+
+```
