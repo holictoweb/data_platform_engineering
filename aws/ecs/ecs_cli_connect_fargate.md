@@ -18,7 +18,6 @@ aws ecs list-clusters
 
 # cluster 상의 task 조회
 aws ecs list-tasks  --cluster tf-dev-cluster-vst
-
 ```
 
 
@@ -39,17 +38,24 @@ https://aws.amazon.com/ko/blogs/containers/new-using-amazon-ecs-exec-access-your
 
 
 ### ecs 에서 수행 중인 task 에 대한 정보 확인 
-
-
 ```bash
 AWS_REGION="ap-northeast-2"
 
 aws ecs describe-tasks \
     --cluster tf-dev-cluster-vst \
     --region $AWS_REGION \
-    --tasks 6c94908f34724ae3b5361139af0ca0ee
+    --tasks eeb0a1e3dc3240b5ac2c538c88b3873b
 
+aws ecs describe-tasks \
+    --cluster tf-dev-cluster-vst \
+    --tasks 6c94908f34724ae3b5361139af0ca0ee
 ```
+
+### ecs job(task) definition 조회
+```bash
+aws ecs describe-task-definition --task-definition ncc_job_creator
+```
+
 
 ### session manager install
 - ecs execute-command를 사용하기 위해서는 SSM session manager 를 설치 해야함. 
@@ -118,7 +124,6 @@ An error occurred (InvalidParameterException) when calling the ExecuteCommand op
 "enableExecuteCommand": false,
 "group": "family:ncc_crawler",
 "healthStatus": "UNKNOWN",
-
 ```
 
 
@@ -126,18 +131,18 @@ An error occurred (InvalidParameterException) when calling the ExecuteCommand op
 ```bash
 aws ecs create-service \
     --cluster tf-dev-cluster-vst \
-    --task-definition aicel-dev-definition \
+    --task-definition ncc_crawler \
     --enable-execute-command \
-    --service-name service-name
+    --service-name cli-create \
     --desired-count 1
+
+
+
 ```
 
 
 
-
-
 # dev ecs fartgate connect 
-
 ```
 aws ecs execute-command 
     --cluster cluster-name \
@@ -145,5 +150,5 @@ aws ecs execute-command
     --container container-name \
     --interactive \
     --command "/bin/sh"
-    
+
 ```
