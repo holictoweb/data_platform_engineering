@@ -1,5 +1,5 @@
 [ecs connect exec ](#ecs_fargate_connect)
-
+[ecs cluster 생성 하기](#ecs_cluster)
 
 # ref
 1. [NEW – Using Amazon ECS Exec to access your containers on AWS Fargate and Amazon EC2](!https://aws.amazon.com/ko/blogs/containers/new-using-amazon-ecs-exec-access-your-containers-fargate-ec2/)
@@ -22,8 +22,6 @@ aws ecs list-tasks  --cluster tf-dev-cluster-vst
 
 
 # ecs fargate connect
-
-
 https://aws.amazon.com/ko/blogs/containers/new-using-amazon-ecs-exec-access-your-containers-fargate-ec2/
 
 
@@ -150,5 +148,58 @@ aws ecs execute-command
     --container container-name \
     --interactive \
     --command "/bin/sh"
+
+```
+
+
+
+
+# ecs cluster
+## ecs cluster 조회 및 동일한 형태의 cluster 생성
+1. cluster list 조회 
+
+```bash
+# cluster list
+aws ecs list-clusters
+
+# cluster detail 
+aws ecs describe-clusters --cluster dev-aicel-cluster
+
+```
+
+
+2. task definition 확인
+```
+# task definition 조회  리스트 
+aws ecs list-task-definitions --family-prefix dev-task-definition-01
+
+# task definition 상세 
+aws ecs describe-task-definition --task-definition dev-task-definition-01:2
+
+
+# 현재 수행 중인 task 
+aws ecs list-tasks  --cluster dev-aicel-cluster
+aws ecs describe-tasks \
+    --cluster dev-aicel-cluster \
+    --tasks bc714392c07643f5914de71e0d3e95aa
+
+
+aws ecs describe-tasks \
+    --cluster tf-dev-cluster-vst \
+    --tasks 0ce67e8882a848558357c3eaf72752dc
+```
+
+3. task 실행 시 exec 
+```bash
+
+
+# 아래는 service 생성으로 task 생성과는 다른 작업 
+aws ecs create-service \
+    --cluster dev-aicel-cluster \
+    --task-definition dev-task-definition-01 \
+    --enable-execute-command \
+    --service-name dev-test-01 \
+    --network-configuration "awsvpcConfiguration={subnets=[ subnet-a56f08cc]}" \
+    --desired-count 1
 
 ```

@@ -1,6 +1,4 @@
 [pandas document](!https://pandas.pydata.org/pandas-docs/stable/user_guide/reshaping.html)
-
-
 [pandas selecting indexing](!https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#indexing-and-selecting-data)
 
 

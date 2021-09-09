@@ -1,5 +1,7 @@
 # airflow 설치 
 
+
+## 1. airflow 설치 
 ```bash
 sudo apt update
 sudo apt upgrade
@@ -33,6 +35,7 @@ pip install apache-airflow==2.1.3 \
 # 다른 rdb로 변경 하더라도 일단 최초는 sqlite로 실행 후 기본적인 셋팅이 되어야 airflow.cfg 수정이 가능 
 airflow db init
 
+# airflow user 생성 
 
 ```
 
@@ -92,6 +95,15 @@ auth_backend = airflow.api.auth.backend.basic_auth
 catchup_by_default = False
 
 ```
+
+### AWS 연결 
+[airflow aws 연결](!https://airflow.apache.org/docs/apache-airflow-providers-amazon/stable/connections/aws.html)
+
+```yaml
+# connection 설정 
+
+```
+
 
 - 작업이 모두 종료 된 후 사용자 생성 
 ```bash
