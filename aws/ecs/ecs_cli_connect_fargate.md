@@ -9,18 +9,6 @@
  - - - 
 
 
-### ecs 정보 조회 
-
-```bash
-
-# cluster list 조회 
-aws ecs list-clusters
-
-# cluster 상의 task 조회
-aws ecs list-tasks  --cluster tf-dev-cluster-vst
-```
-
-
 # ecs fargate connect
 https://aws.amazon.com/ko/blogs/containers/new-using-amazon-ecs-exec-access-your-containers-fargate-ec2/
 
@@ -34,28 +22,39 @@ https://aws.amazon.com/ko/blogs/containers/new-using-amazon-ecs-exec-access-your
 
 
 
-
-### ecs 에서 수행 중인 task 에 대한 정보 확인 
+# 1. root filesystem 사용 활성화 
 ```bash
-AWS_REGION="ap-northeast-2"
+An error occurred (TargetNotConnectedException) when calling the ExecuteCommand operation: The execute command failed due to an internal error. Try again later.
 
-aws ecs describe-tasks \
-    --cluster tf-dev-cluster-vst \
-    --region $AWS_REGION \
-    --tasks eeb0a1e3dc3240b5ac2c538c88b3873b
-
-aws ecs describe-tasks \
-    --cluster tf-dev-cluster-vst \
-    --tasks 6c94908f34724ae3b5361139af0ca0ee
+# 위와 같은 오류가 발생 하는 것은 ssm 이 실제 root filesystem 상에 쓰기 기능이 있어야만 정상 동작 하기 때문임
+readonlyRootFilesystem = false
 ```
 
-### ecs job(task) definition 조회
+# 2. ssm 상에  channel을 열수 있는 권한 필요 
+ssmmessages:CreateControlChannel  
+ssmmessages:createDatchannel  
+ssmmessages:OpenControlChannel  
+ssmmessages:OpenDataChannel  
 ```bash
-aws ecs describe-task-definition --task-definition ncc_job_creator
+# task execution role 상에 아래 policy 추가 
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ssmmessages:CreateControlChannel",
+                "ssmmessages:CreateDataChannel",
+                "ssmmessages:OpenControlChannel",
+                "ssmmessages:OpenDataChannel"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
 ```
 
-
-### session manager install
+# 3. session manager install
 - ecs execute-command를 사용하기 위해서는 SSM session manager 를 설치 해야함. 
 https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-working-with-install-plugin.html
 
@@ -77,29 +76,107 @@ sudo dpkg -i session-manager-plugin.deb
 ```
 
 
-### ecs fargate container 접속 
 
+# ecs exec 실행
+
+### ecs fargate container 접속 방법
 ```bash
+AWS_REGION="ap-northeast-2"
+
 aws ecs execute-command  \
     --region $AWS_REGION \
     --cluster tf-dev-cluster-vst \
-    --task 7225d5c329bf46198a61c50a938f383a \
+    --task 0ce67e8882a848558357c3eaf72752dc \
     --container ncc_crawler \
     --command "/bin/bash" \
     --interactive
 
-
-aws ecs execute-command 
-    --cluster cluster-name \
-    --task task-id \
-    --container container-name \
+aws ecs execute-command \
+    --region $AWS_REGION \
+    --cluster dev-aicel-cluster \
+    --task 488cf17c303b4d569b3db4ced408617b \
+    --container dev-task-definition-02 \
     --interactive \
     --command "/bin/sh"
+
+aws ecs execute-command \
+    --region ap-northeast-2 \
+    --cluster dev-aicel-cluster \
+    --task 88cde14d6c4d4e30a3d75403f7d22d7d \
+    --container dev-task-definition-02 \
+    --interactive \
+    --command "/bin/bash"
+
+aws ecs execute-command \
+    --region ap-northeast-2 \
+    --cluster dev-aicel-cluster \
+    --task ad726d4b05fc4845a163ac15d687153c \
+    --container dev-task-definition-02 \
+    --interactive \
+    --command "ls"
+
+```
+### 개별 container 실행 및 접속 
+```bash
+
+aws ecs run-task \
+    --cluster dev-aicel-cluster  \
+    --task-definition dev-task-definition-02 \
+    --network-configuration awsvpcConfiguration="{subnets=['subnet-246db769'],assignPublicIp=ENABLED}" \
+    --enable-execute-command \
+    --launch-type FARGATE \
+    --tags key=environment,value=production \
+    --platform-version '1.4.0' \
+    --region ap-northeast-2
+
+
+# 생성 후 task 확인 
+aws ecs describe-tasks \
+    --cluster dev-aicel-cluster \
+    --tasks 88cde14d6c4d4e30a3d75403f7d22d7d
 
 ```
 
 
-#### error 
+   
+
+
+
+# 기본 조회 기능 
+
+### ecs 정보 조회 
+
+```bash
+
+# cluster list 조회 
+aws ecs list-clusters
+
+# cluster 상의 task 조회
+aws ecs list-tasks  --cluster tf-dev-cluster-vst
+```
+
+### ecs 에서 수행 중인 task 에 대한 정보 확인 
+```bash
+AWS_REGION="ap-northeast-2"
+
+aws ecs describe-tasks \
+    --cluster tf-dev-cluster-vst \
+    --region $AWS_REGION \
+    --tasks eeb0a1e3dc3240b5ac2c538c88b3873b
+
+aws ecs describe-tasks \
+    --cluster tf-dev-cluster-vst \
+    --tasks 6c94908f34724ae3b5361139af0ca0ee
+```
+
+### ecs job(task) definition 조회
+```bash
+aws ecs describe-task-definition --task-definition ncc_job_creator
+```
+
+
+
+# error 
 ```bash
 holictoweb@LAPTOP-NGM0A0IK:~/download$ aws ecs execute-command  \
 >     --region $AWS_REGION \
@@ -125,36 +202,7 @@ An error occurred (InvalidParameterException) when calling the ExecuteCommand op
 ```
 
 
-#### 개별 container 실행 방법
-```bash
-aws ecs create-service \
-    --cluster tf-dev-cluster-vst \
-    --task-definition ncc_crawler \
-    --enable-execute-command \
-    --service-name cli-create \
-    --desired-count 1
 
-
-
-```
-
-
-
-# dev ecs fartgate connect 
-```
-aws ecs execute-command 
-    --cluster cluster-name \
-    --task task-id \
-    --container container-name \
-    --interactive \
-    --command "/bin/sh"
-
-```
-
-
-
-
-# ecs cluster
 ## ecs cluster 조회 및 동일한 형태의 cluster 생성
 1. cluster list 조회 
 
@@ -169,19 +217,19 @@ aws ecs describe-clusters --cluster dev-aicel-cluster
 
 
 2. task definition 확인
-```
+```bash
 # task definition 조회  리스트 
 aws ecs list-task-definitions --family-prefix dev-task-definition-01
 
 # task definition 상세 
-aws ecs describe-task-definition --task-definition dev-task-definition-01:2
+aws ecs describe-task-definition --task-definition dev-task-definition-02
 
 
 # 현재 수행 중인 task 
 aws ecs list-tasks  --cluster dev-aicel-cluster
 aws ecs describe-tasks \
     --cluster dev-aicel-cluster \
-    --tasks bc714392c07643f5914de71e0d3e95aa
+    --tasks ad726d4b05fc4845a163ac15d687153c
 
 
 aws ecs describe-tasks \
@@ -189,17 +237,18 @@ aws ecs describe-tasks \
     --tasks 0ce67e8882a848558357c3eaf72752dc
 ```
 
-3. task 실행 시 exec 
+# ECS CHECK 
+
+[Amazon ECS Exec Checker](!https://github.com/aws-containers/amazon-ecs-exec-checker)
+- shell을 통해 현재 구성에 이슈가 없는지 확인 가능. 
 ```bash
-
-
-# 아래는 service 생성으로 task 생성과는 다른 작업 
-aws ecs create-service \
-    --cluster dev-aicel-cluster \
-    --task-definition dev-task-definition-01 \
-    --enable-execute-command \
-    --service-name dev-test-01 \
-    --network-configuration "awsvpcConfiguration={subnets=[ subnet-a56f08cc]}" \
-    --desired-count 1
-
+# param : cluster name / task id
+./check-ecs-exec.sh dev-aicel-cluster b27d15e151bf443088453a0e7f8b96f2
 ```
+
+
+
+
+
+
+

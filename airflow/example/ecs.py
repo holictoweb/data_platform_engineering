@@ -28,7 +28,10 @@ from airflow.utils.task_group import TaskGroup
 # variable 사용 
 from airflow.models.variable import Variable
 
-
+'''
+# ecs 사용 방법에 대한 예제
+https://headspring.com/2020/06/17/airflow-parallel-tasks/
+'''
 
 
 '''

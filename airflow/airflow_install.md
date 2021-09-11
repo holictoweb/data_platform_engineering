@@ -72,7 +72,6 @@ ALTER DATABASE `databasename` CHARACTER SET utf8;
 ```
 
 
-
 - config 변경
 
 ```python
@@ -94,11 +93,24 @@ auth_backend = airflow.api.auth.backend.basic_auth
 # catchup_by_default = True
 catchup_by_default = False
 
+
+
+# dag 안의 동시 수행 task 갯수 지정 
+dag_concurrency = 50
+worker_concurrency = 50
+
+# worker 와는 별도로 병렬 처리에 대한 처리는 parallelism
+parallelism = 32
+
+# How long before timing out a python file import
+dagbag_import_timeout = 60.0
+
 ```
 
 ### AWS 연결 
 [airflow aws 연결](!https://airflow.apache.org/docs/apache-airflow-providers-amazon/stable/connections/aws.html)
 
+- 일단 access key / secret key 베이스로 설정 
 ```yaml
 # connection 설정 
 
@@ -118,7 +130,7 @@ airflow users create \
 
 
 
-# timezone
+### timezone
 ```
 # timezone 에 대한 설정 확인 필요 
 
@@ -127,9 +139,7 @@ airflow users create \
 
 
 
-dag refresh
-
-
+### dag refresh
 
 ```bash
 python3 -c "from airflow.models import DagBag; d = DagBag();"

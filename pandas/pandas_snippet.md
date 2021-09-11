@@ -17,8 +17,14 @@ pd.set_option('display.max_rows', None)
 
 # function 
 
-```
+
+## reset index
+```python
+# slice 한 df의 index를 재 설정
+df_save_m.reset_index(drop=True, inplace=True)
+
 # 
+
 ```
 
 
