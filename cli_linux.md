@@ -42,3 +42,20 @@ sudo superset run -p 8088 --with-threads --reload --debugger --host 0.0.0.0
 
 
 
+## storage
+
+### 스토리지 extend
+```bash
+# 용량 확인 
+df -hT
+
+# 현재 스트리지 구성 확인 
+lsblk 
+
+
+# 용량을 늘려야 할 대상 part 선택 
+sudo growpart /dev/nvme0n1 1
+
+
+
+```

@@ -133,3 +133,11 @@ df_row_reindex = pd.concat([df1, df2], igonore_index = True)
 
 ```
 
+
+
+# index 설정
+
+```python
+df_save_m.reset_index(drop=True, inplace=True)
+
+```

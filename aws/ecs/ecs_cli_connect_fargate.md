@@ -31,6 +31,7 @@ readonlyRootFilesystem = false
 ```
 
 # 2. ssm 상에  channel을 열수 있는 권한 필요 
+- task execution role 상에 추가   
 ssmmessages:CreateControlChannel  
 ssmmessages:createDatchannel  
 ssmmessages:OpenControlChannel  
@@ -76,8 +77,43 @@ sudo dpkg -i session-manager-plugin.deb
 ```
 
 
+# 4.  enable exec command 활성화
 
-# ecs exec 실행
+## 1. task job schedueler에서 활성화 
+https://docs.aws.amazon.com/AmazonECS/latest/userguide/scheduled_tasks.html  
+>(Optional) Expand Configure additional properties to specify the following additional parameters for your tasks.
+>For Task group, specify a task group name. The task group name is used to identify a set of related tasks and is used in conjunction with the spread task placement strategy to ensure tasks in the same task group are spread out evently among the container instances in the cluster.  
+>For Tags, choose Add tag to associate key value pair tags for the task.  
+>For Configure managed tags, choose Enable managed tags to have Amazon ECS add tags that can be used when reviewing cost allocation in your Cost and Usage Report. For more information, see Tagging your resources for billing.  
+>For Configure execute command, choose Enable execute command to enable the ECS Exec functionality for the task. For more information, see Using Amazon ECS Exec for debugging.  
+>For Configure propagate tags, choose Propagate tags from task definition to have Amazon ECS add the tags associated with the task definition to your task. For more information, see Tagging your resources.  
+
+
+
+### 2. 개별 container 실행 및 접속 
+```bash
+
+aws ecs run-task \
+    --cluster dev-aicel-cluster  \
+    --task-definition dev-task-definition-02 \
+    --network-configuration awsvpcConfiguration="{subnets=['subnet-246db769'],assignPublicIp=ENABLED}" \
+    --enable-execute-command \
+    --launch-type FARGATE \
+    --tags key=environment,value=production \
+    --platform-version '1.4.0' \
+    --region ap-northeast-2
+
+
+# 생성 후 task 확인 
+aws ecs describe-tasks \
+    --cluster dev-aicel-cluster \
+    --tasks 88cde14d6c4d4e30a3d75403f7d22d7d
+
+```
+
+
+
+# 5. ecs exec 접속
 
 ### ecs fargate container 접속 방법
 ```bash
@@ -102,7 +138,7 @@ aws ecs execute-command \
 aws ecs execute-command \
     --region ap-northeast-2 \
     --cluster dev-aicel-cluster \
-    --task 88cde14d6c4d4e30a3d75403f7d22d7d \
+    --task 33f9704effdb49f69ac62ca007907a59 \
     --container dev-task-definition-02 \
     --interactive \
     --command "/bin/bash"
@@ -116,27 +152,6 @@ aws ecs execute-command \
     --command "ls"
 
 ```
-### 개별 container 실행 및 접속 
-```bash
-
-aws ecs run-task \
-    --cluster dev-aicel-cluster  \
-    --task-definition dev-task-definition-02 \
-    --network-configuration awsvpcConfiguration="{subnets=['subnet-246db769'],assignPublicIp=ENABLED}" \
-    --enable-execute-command \
-    --launch-type FARGATE \
-    --tags key=environment,value=production \
-    --platform-version '1.4.0' \
-    --region ap-northeast-2
-
-
-# 생성 후 task 확인 
-aws ecs describe-tasks \
-    --cluster dev-aicel-cluster \
-    --tasks 88cde14d6c4d4e30a3d75403f7d22d7d
-
-```
-
 
    
 

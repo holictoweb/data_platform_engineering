@@ -61,3 +61,28 @@ print(data)
 connection.close()
 
 ```
+
+
+
+# USER
+
+```sql
+
+CREATE USER 'aicel'@'%' identified by 'Aicel2021!';
+
+
+GRANT ALL PRIVILEGES ON *.* TO 'aicel'@'%'
+
+```
+
+- 비밀번호 변경
+```sql
+-- MySQL 5.7 이상
+UPDATE mysql.user SET authentication_string=PASSWORD('Aicel2021!') WHERE User='root' AND Host='localhost';
+FLUSH PRIVILEGES;
+
+
+-- mysql 8.0
+alter user 'root'@'lacalhost' identified with mysql_native_password by 'Aicel';
+
+```
