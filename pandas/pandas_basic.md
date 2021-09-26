@@ -66,7 +66,7 @@ df.loc[df['names'] == 'Kilho',['names','points']]
 df.loc[(df['points']>2)&(df['points']<3),:]
 
 
-
+df.loc
 ```
 
 
