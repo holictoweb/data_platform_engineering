@@ -20,8 +20,10 @@ export AIRFLOW_HOME=~/airflow
 source .bashrc
 
 
-# 설치 후 path 지정 
+# 설치 후 path 지정 - conda 환경일 경우 별도 conda env의 bin을 등록 
 PATH=$PATH:/home/ubuntu/.local/bin
+export PATH=$PATH:~/.local/bin
+export PATH=$PATH:/home/ubuntu/.local/bin
 
 
 # 문제 발생
@@ -35,10 +37,93 @@ pip install apache-airflow==2.1.3 \
 # 다른 rdb로 변경 하더라도 일단 최초는 sqlite로 실행 후 기본적인 셋팅이 되어야 airflow.cfg 수정이 가능 
 airflow db init
 
-# airflow user 생성 
+# airflow user 생성 - db설정 까지 모두 끝난 후에 수행 
+airflow users create \
+    --username admin \
+    --firstname Peter \
+    --lastname Parker \
+    --role Admin \
+    --email spiderman@superhero.org
+```
+
+## 2. airflow service 등록 
+```bash
+# group  생성 
+sudo groupadd airflow
+
+# airflow 계정 생성 
+sudo useradd -s /bin/bash airflow -g airflow -d /home/ubuntu/airflow -m
 
 ```
 
+
+- service 등록
+
+
+- airflow-webserver.service
+```sh
+[Unit]
+Description=Airflow webserver
+After=network.target
+
+[Service]
+Environment="PATH=/home/ubuntu/.local/bin:$PATH:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin"
+EnvironmentFile=/home/ubuntu/airflow/airflow.env
+User=ubuntu
+Group=ubuntu
+Type=simple
+ExecStart=/home/ubuntu/.local/bin/airflow  webserver -p 8081
+Restart=on-failure
+RestartSec=10s
+
+[Install]
+WantedBy=multi-user.target
+
+```
+- airflow-scheduler.service
+```bash
+[Unit]
+Description=Airflow scheduler
+After=network.target
+
+[Service]
+Environment="PATH=/home/ubuntu/.local/bin:$PATH:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin"
+EnvironmentFile=/home/ubuntu/airflow/airflow.env
+User=ubuntu
+Group=ubuntu
+Type=simple
+ExecStart=/home/ubuntu/.local/bin/airflow scheduler
+Restart=on-failure
+RestartSec=10s
+
+[Install]
+WantedBy=multi-user.target
+```
+
+- 위의 두개 파일을 사용하여 등록 
+```bash
+# service 등록 
+
+sudo vi /etc/systemd/system/airflow-webserver.service
+
+
+sudo chmod 755 airflow-webserver.service
+sudo chmod 755 airflow-scheduler.service
+sudo systemctl daemon-reload
+sudo systemctl enable airflow-webserver.service
+sudo systemctl enable airflow-scheduler.service
+
+sudo systemctl start airflow-webserver.service
+sudo systemctl start airflow-scheduler.service
+
+# system log 확인 
+sudo nano /var/log/syslog
+
+# 실행 파일 airflow 에 대한 권한 변경 
+chmod o+rx /home/ubuntu/.local/bin/airflow 
+
+
+```
 
 
 - mysql 설정 
@@ -72,9 +157,10 @@ ALTER DATABASE `databasename` CHARACTER SET utf8;
 ```
 
 
-- config 변경
+## 2. config 변경
 
 ```python
+[core]
 # timezone 설정
 # default_timezone = utc
 default_timezone = Asia/Seoul
@@ -86,7 +172,7 @@ executor = LocalExecutor
 # sql_alchemy_conn = sqlite:////home/airflow/airflow/airflow.db
 sql_alchemy_conn =  mysql+pymysql://airflow:Bespin12!@127.0.0.1:3306/airflow
 
-# 비밀번호 사용
+# 비밀번호 사용 # 설정 시 로그인을 위한 사용자 생성 필요 ( 추가 config 변경은 필요 없음 )
 # auth_backend = airflow.api.auth.backend.deny_all
 auth_backend = airflow.api.auth.backend.basic_auth
 
@@ -105,6 +191,9 @@ parallelism = 32
 # How long before timing out a python file import
 dagbag_import_timeout = 60.0
 
+[werbserver]
+default_ui_timezone = Asia/Seoul
+
 ```
 
 ### AWS 연결 
@@ -121,7 +210,15 @@ dagbag_import_timeout = 60.0
 ```bash
 # user 생성
 airflow users create \
-    --username aicel \
+    --username aicel-airflow \
+    --firstname lee \
+    --lastname joonik \
+    --role Admin \
+    --email joonik.lee@aiceltech.com
+
+# user 삭제
+airflow users create \
+    --username aicel-airflow \
     --firstname lee \
     --lastname joonik \
     --role Admin \
@@ -129,13 +226,6 @@ airflow users create \
 ```
 
 
-
-### timezone
-```
-# timezone 에 대한 설정 확인 필요 
-
-
-```
 
 
 

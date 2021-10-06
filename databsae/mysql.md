@@ -86,3 +86,17 @@ FLUSH PRIVILEGES;
 alter user 'root'@'lacalhost' identified with mysql_native_password by 'Aicel';
 
 ```
+
+
+
+
+# MySQL Management 
+
+
+```sql
+-- 세션 상태 확인 
+select count(*) from information_schema.processlist where command='Sleep';
+
+
+
+```
