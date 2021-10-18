@@ -44,6 +44,13 @@ airflow users create \
     --lastname Parker \
     --role Admin \
     --email spiderman@superhero.org
+    
+airflow users create \
+    --username aicel \
+    --firstname aicel \
+    --lastname tech \
+    --role Admin \
+    --email joonik.lee@aiceltech.com
 ```
 
 ## 2. airflow service 등록 
