@@ -99,6 +99,13 @@ sudo /etc/init.d/docker start
 
 
 
+# image 삭제
+
+```bash
+# 전체 이미지 삭제
+docker rmi $(docker images -a -q)
+```
+
 
 
 
@@ -131,5 +138,4 @@ WORKDIR : 작업 디렉토리를 지정한다. 해당 디렉토리가 없으면 
 COPY : 파일이나 폴더를 이미지에 복사한다. 위 코드에서 두 번째 COPY 메서드는 entrypoint.sh 파일을 이미지에 run.sh 이름으로 복사한다. 상대 경로를 사용할 경우 WORKDIR로 지정한 디렉토리를 기준으로 복사한다.
 ENV : 이미지에서 사용할 환경 변수 값을 지정한다. 위 코드는 PROFILE 환경 변수의 값으로 local을 지정했는데 이 경우 컨테이너를 생성할 때 PROFILE 환경 변수를 따로 지정하지 않으면 local을 기본 값으로 사용한다.
 ENTRYPOINT : 컨테이너를 구동할 때 실행할 명령어를 지정한다. 위에서는 run.sh을 실행하도록 설정했다.
-
 

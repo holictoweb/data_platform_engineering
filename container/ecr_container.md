@@ -22,18 +22,15 @@ python                                                3.8.10-slim-buster   f2c36
 
 
 ## aws ecr login and push 
-```
+```bash
 # ecr login 
 aws ecr get-login-password --region us-west-2|docker login --username AWS --password-stdin ${fullname}
 
-
 docker push ${fullname}
 
+aws ecr get-login-password --region ap-northeast-2|docker login --username AWS --password-stdin 2323.dkr.ecr.ap-northeast-2.amazonaws.com/dev-aicel
 
-
-aws ecr get-login-password --region ap-northeast-2|docker login --username AWS --password-stdin 445772965351.dkr.ecr.ap-northeast-2.amazonaws.com/dev-aicel
-
-aws ecr get-login-password --region ap-northeast-2|docker login --username AWS --password-stdin 445772965351.dkr.ecr.ap-northeast-2.amazonaws.com/aicel-news-ticker-mapper-lib
+aws ecr get-login-password --region ap-northeast-2|docker login --username AWS --password-stdin 23232.dkr.ecr.ap-northeast-2.amazonaws.com/aicel-news-ticker-mapper-lib
 
 ```
 
@@ -42,7 +39,31 @@ aws ecr get-login-password --region ap-northeast-2|docker login --username AWS -
 
 ```bash 
 # simple login 
-aws ecr get-login-password --region ap-northeast-2| docker login --username AWS --password-stdin 445772965351.dkr.ecr.ap-northeast-2.amazonaws.com
+aws ecr get-login-password --region ap-northeast-2| docker login --username AWS --password-stdin 3232.dkr.ecr.ap-northeast-2.amazonaws.com
 
 
 ```
+
+
+
+# build and push
+
+```bash
+#!/bin/bash
+full_name='445772965351.dkr.ecr.ap-northeast-2.amazonaws.com/dev-aicel'
+tag='dev-lji-crawler'
+region='ap-northeast-2'
+aws ecr get-login-password --region ap-northeast-2|docker login --username AWS --password-stdin 23929394.dkr.ecr.ap-northeast-2.amazonaws.com/dev-aicel
+
+# build with tag
+docker build -t $tag .
+
+
+docker tag $tag ${full_name}:${tag}
+docker push ${full_name}:${tag}
+
+
+```
+
+
+

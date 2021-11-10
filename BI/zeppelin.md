@@ -92,46 +92,7 @@ pip install protobuf
 
 
 
-
-
 mongo --host tf-dev-docdb-cluster-vst.cluster-c6btgg8fszdb.ap-northeast-2.docdb.amazonaws.com:27017 --username root --password "01234567890"
-
-
-
-```
-response = client.create_model(
-    ModelName='string',
-    PrimaryContainer={
-  		...
-    },
-    Containers=[
-        ...
-    ],
-    InferenceExecutionConfig={
-        'Mode': 'Serial'|'Direct'
-    },
-    ExecutionRoleArn='string',
-    Tags=[
-        {
-            'Key': 'string',
-            'Value': 'string'
-        },
-    ],
-    VpcConfig={
-        'SecurityGroupIds': [
-            'string',
-        ],
-        'Subnets': [
-            'string',
-        ]
-    },
-    EnableNetworkIsolation=True|False
-)
-```
-
-
-
-
 
 # cron 사용
 
@@ -149,10 +110,6 @@ response = client.create_model(
   <description>Notebook cron folders</description>
 </property>
 ```
-
-
-
-
 
 # mysql interpreter 연결
 
@@ -189,3 +146,53 @@ wget http://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-8.0.11.
 |             Artifact              | Excludes |
 | :-------------------------------: | :------: |
 | mysql:mysql-connector-java:8.0.11 |          |
+
+
+
+# documentdb interpretor 연결
+
+- jdbc 커넥터 설정
+
+```
+	
+```
+
+- documentdb jdbc driver download
+
+- https://github.com/aws/amazon-documentdb-jdbc-driver/releases
+
+```python
+mongodb://root:<insertYourPassword>@tf-dev-docdb-cluster-vst.cluster-c6btgg8fszdb.ap-northeast-2.docdb.amazonaws.com:27017/?replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false
+
+
+mongodb://root:<insertYourPassword>@tf-dev-docdb-cluster-vst-0.c6btgg8fszdb.ap-northeast-2.docdb.amazonaws.com:27017/?retryWrites=false
+```
+
+
+
+```
+
+```
+
+# zeppelin output
+
+## pandas dataframe output 
+
+- 실제 3개 컬럼만 출력
+
+```
+```
+
+
+
+## output limit (X)
+
+```
+zeppelin.interpreter.output.limit = 102400000
+zeppelin.websocket.max.text.message.size = 102400000
+```
+
+
+
+_ _ _
+

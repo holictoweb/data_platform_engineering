@@ -138,6 +138,10 @@ df_row_reindex = pd.concat([df1, df2], igonore_index = True)
 # index 설정
 
 ```python
+# 기존 인덱스 삭제
 df_save_m.reset_index(drop=True, inplace=True)
+
+# 인덱스 였던 컬럼을 그대로 살리고 새로 인덱스 생성 
+df_save_m.reset_index(inplace=True)
 
 ```

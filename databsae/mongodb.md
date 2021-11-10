@@ -51,17 +51,20 @@ ubuntu@ip-172-31-15-162:~/DEV/fargate_crawlers$ sudo systemctl status mongod
 
 ## 계정 생성 및 외부 연결
 
->use admin
+```sql
+use admin
+
+db.createUser({ user: "root", pwd: "01234567890", roles:["dbAdminAnyDatabase"] } )
+```
 
 
-
->db.createUser({ user: "root", pwd: "01234567890", roles:["dbAdminAnyDatabase"] } )
 
 # 기본 사용 
 
 ```sql 
 show dbs
 use <db명>
+show tables
 
 # collection 생성 
 db.createCollection("[COLLECTION_NAME]")
@@ -70,3 +73,10 @@ db.createCollection("[COLLECTION_NAME]")
 
 
 ```
+
+# mongo shell 연결
+
+```bash
+mongo --host tf-dev-docdb-cluster-vst.cluster-c6btgg8fszdb.ap-northeast-2.docdb.amazonaws.com:27017 -u root -p eeee
+```
+

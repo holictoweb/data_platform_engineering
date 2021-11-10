@@ -8,6 +8,11 @@
 4. git remote add origin https://github.com/holictoweb/bitlab.git
     - 원격 저장소 확인 
 
+```
+```
+
+
+
 
 ### private repo 접근 방법
 
@@ -49,7 +54,7 @@ Please commit your changes or stash them before you merge.
 Aborting
 ```
 
-```
+```bash
 git stash
 # git pull 은 git fetch + git merge
 gir pull origin master
@@ -68,7 +73,7 @@ git reset --hard origin/master
 
 - pull request conflict 이슈 처리 
 
-```
+```bash
 # local 
 git reset <commit_id>~1
 

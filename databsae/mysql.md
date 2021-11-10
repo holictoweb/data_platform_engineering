@@ -100,3 +100,12 @@ select count(*) from information_schema.processlist where command='Sleep';
 
 
 ```
+
+# Column 변경
+
+```sql
+ alter table gn_news_nlp_job add batch_flag tinyint(1) NOT NULL DEFAULT '0'
+
+ alter table gn_news_nlp_job drop column batch_flag
+```
+

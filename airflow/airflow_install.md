@@ -1,3 +1,7 @@
+
+
+<img src="https://d2908q01vomqb2.cloudfront.net/f1f836cb4ea6efb2a0b1b99f41ad8b103eff4b59/2019/04/17/sagemaker-airflow-2.gif" alt="airflow archi" style="zoom: 150%;" />
+
 # airflow 설치 
 
 
