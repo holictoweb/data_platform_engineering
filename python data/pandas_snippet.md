@@ -55,7 +55,7 @@ df_save_m.reset_index(drop=True, inplace=True)
 # CREATE DATAFRAME
 
 
-```py
+```python
 
 # import pandas as pd
 import pandas as pd
@@ -72,7 +72,7 @@ df = pd.DataFrame(list(zip(lst, lst2)),
                columns =['Name', 'val'])
 ```
 
-```py
+```python
 # pandas from dict 
 
 # import pandas as pd
@@ -85,3 +85,4 @@ lst = [['tom', 25], ['krish', 30],
 df = pd.DataFrame(lst, columns =['Name', 'Age'])
 df
 ```
+

@@ -6,7 +6,7 @@
 2. [디버깅을 위해 Amazon ECS Exec 사용](!https://docs.aws.amazon.com/AmazonECS/latest/userguide/ecs-exec.html)
 
 
- - - - 
+- - -
 
 
 # ecs fargate connect
@@ -106,7 +106,7 @@ aws ecs run-task \
 
 # 생성 후 task 확인 
 aws ecs describe-tasks \
-    --cluster dev-aicel-cluster \
+    --cluster dev-aicel-cluster \	
     --tasks 88cde14d6c4d4e30a3d75403f7d22d7d
 
 ```
@@ -122,7 +122,7 @@ AWS_REGION="ap-northeast-2"
 aws ecs execute-command  \
     --region $AWS_REGION \
     --cluster tf-dev-cluster-vst \
-    --task 0ce67e8882a848558357c3eaf72752dc \
+    --task de79e8ca8ff442478fe0f79e043c68a1 \
     --container ncc_crawler \
     --command "/bin/bash" \
     --interactive

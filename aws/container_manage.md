@@ -8,13 +8,13 @@
 3. ecr 사용을 위한 credentials 설정 
 
 - ecr repository 생성 
-```
+```bash
 aws ecr create-repository \
      --repository-name lji-repo-name \
      --region us-west-2
 ```
 - 해당 repo의 로그인 정보 저장
-```
+```bash
 aws ecr get-login-password \
       --region us-west-2 | docker login \
       --username AWS \

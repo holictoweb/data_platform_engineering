@@ -6,7 +6,11 @@
 # data 정보 조회
 
 ```python
-
+pd.set_option('display.max_columns', None)
+pd.set_option('max_colwidth', None)
+pd.set_option('display.max_rows', None)
+pd.options.display.float_format = '{:.2f}'.format
+pd.set_option('mode.chained_assignment',  None)
 ```
 
 
@@ -133,6 +137,13 @@ df_row_reindex = pd.concat([df1, df2], igonore_index = True)
 
 ```
 
+- row 단위로 데이터 추가
+
+```python
+# list -> dataframe
+
+```
+
 
 
 # index 설정
@@ -145,3 +156,25 @@ df_save_m.reset_index(drop=True, inplace=True)
 df_save_m.reset_index(inplace=True)
 
 ```
+
+
+
+
+
+# iteration
+
+**DataFrame.iterrows()**
+
+**DataFrame.iteritems() **
+
+**DataFrame.itertuples()**
+
+![](https://t1.daumcdn.net/cfile/tistory/99693846600414F413)
+
+
+
+```
+for i in df.index: 
+
+```
+

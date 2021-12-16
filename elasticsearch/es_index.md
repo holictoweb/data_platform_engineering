@@ -1,3 +1,5 @@
+
+
 # opensearch
 
 
@@ -13,11 +15,121 @@
 
 
 
+# 문자열 text, keyword
+
+
+
+- `"analyzer" : "<애널라이저명>"` - 색인에 사용할 애널라이저를 입력하며 디폴트로는 standard 애널라이저를 사용합니다. 토크나이저, 토큰필터들을 따로 지정할수가 없으며 필요하다면 사용자 정의 애널라이저를 settings에 정의 해 두고 사용합니다.
+
+- `"search_analyzer" : "<애널라이저명>"` - 기본적으로 text 필드는 match 쿼리로 검색을 할 때 색인에 사용한 동일한 애널라이저로 검색 쿼리를 분석합니다. **search_analyzer** 를 지정하면 검색시에는 색인에 사용한 애널라이저가 아닌 다른 애널라이저를 사용합니다. 보통 **NGram** 방식으로 색인을 했을 때는 지정 해 주는 것이 바람직합니다.
+
+- `"index" : <true | false>` - 디폴트는 **true** 입니다. false로 설정하면 해당 필드는 역 색인을 만들지 않아 검색이 불가능하게 됩니다.
+
+- `"boost" : <숫자 값>` - 디폴트는 1 입니다. 값이 1 보다 높으면 풀텍스트 검색 시 해당 필드 스코어 점수에 가중치를 부여합니다. 1보다 낮은 값을 입력하면 가중치가 내려갑니다.
+
+- `"fielddata" : <true | false>` - 디폴트는 false 입니다. true로 설정하면 해당 필드의 색인된 텀 들을 가지고 **집계(aggregation)** 또는 **정렬(sorting)**이 가능합니다. 이 설정은 다이나믹 설정으로 이미 정의된 매핑에 true 또는 false로 다시 적용하는 것이 가능합니다.
+
+
+
+
+
 # opensarch 은전한닢 index 설정
 
 - https://docs.aws.amazon.com/opensearch-service/latest/developerguide/supported-plugins.html
 
 - [aws document Amazon Elasticsearch Service, 한국어 분석을 위한 ‘은전한닢’ 플러그인 지원](https://aws.amazon.com/ko/blogs/korea/amazon-elasticsearch-service-now-supports-korean-language-plugin/)
+
+
+
+## sysnonym user-dict 설정
+
+```python
+# 인덱스 재 생성 
+request_body = {
+    "mappings": {"properties": {"Unnamed: 0": {"type": "long"
+            },
+      "corp_cls": {"type": "text",
+       "fields": {"keyword": {"type": "keyword", "ignore_above": 256
+                    }
+                }
+            },
+      "corp_code": {"type": "long"
+            },
+      "corp_name": {"type": "text",
+       "fields": {"keyword": {"type": "keyword", "ignore_above": 256
+                    }
+                }
+            },
+      "flr_nm": {"type": "text",
+       "fields": {"keyword": {"type": "keyword", "ignore_above": 256
+                    }
+                }
+            },
+      "rcept_dt": {"type": "long"
+            },
+      "rcept_no": {"type": "long"
+            },
+      "report": {"type": "text", "analyzer": "korean" , "search_analyzer": "korean"},
+      "report_nm": {"type": "text",
+       "fields": {"keyword": {"type": "keyword", "ignore_above": 256
+                    }
+                }
+            },
+      "rm": {"type": "text",
+       "fields": {"keyword": {"type": "keyword", "ignore_above": 256
+                    }
+                }
+            },
+      "stock_code": {"type": "long"
+            }
+        }
+    },
+    "settings": {
+        "index": {
+            "analysis": {
+                "analyzer": {
+                    "korean": {
+                        "type": "custom",
+                        "tokenizer": "seunjeon",
+                        "filter": ["dart_filter"]
+                    }
+                },
+                "tokenizer": {
+                    "seunjeon": {
+                        "user_words": [],
+                        "user_dict_path": "analyzers/F147440239",
+                        "index_eojeol": "true",
+                        "index_poses": [
+                            "N", "SL", "SH", "SN"
+                        ],
+                        "decompound": "false",
+                        "type": "seunjeon_tokenizer"
+                    }
+                },
+                "filter":{
+                    "dart_filter":{
+                        "type": "synonym",
+                        "synonyms_path": "analyzers/F221957889"
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+
+oss_client.indices.create(index = 'dart_report_prod_2', body = request_body)
+
+```
+
+
+
+
+
+
+
+
 
 
 
@@ -46,6 +158,45 @@ curl -XPOST 'https://search-korean-text-xxxxx.ap-northeast-2.es.amazonaws.com/my
 
 
 
+```
+
+
+
+- user_dict, synonyms 설정 적용
+
+```python
+"settings": {
+        "index": {
+            "analysis": {
+                "analyzer": {
+                    "korean": {
+                        "type": "custom",
+                        "tokenizer": "seunjeon"
+                    }
+                },
+                "tokenizer": {
+                    "seunjeon": {
+                        "user_words": [],
+                        "user_dict_path": "analyzers/F147440239",
+                        "index_eojeol": "true",
+                        "index_poses": [
+                            "N"
+                        ],
+                        "decompound": "false",
+                        "type": "seunjeon_tokenizer",
+                        "filter": ["dart_synonym"]
+                    }
+                },
+                "filter":{
+                    "dart_synonym":{
+                        "type": "synonym",
+                        "synonyms_path": "analyzers/F221957889",
+                        "updateable": "true"
+                    }
+                }
+            }
+        }
+    }
 ```
 
 
@@ -164,6 +315,12 @@ https://velog.io/@diane_at_work/Elasticsearch-%EA%B8%B0%EB%B3%B8-score-%EA%B3%84
 - **문서에 해당 키워드가 등장하는 빈도가 작을수록, IDF가 커지면서 score도 올라간다.**
 - **검색된 문서에 매칭된 키워드수가 자주 반복될수록, 또 평균 필드 길이보다 검색된 문서의 필드가 길수록 score가 올라간다**.
 
+
+
+- ES 공식 문서 (정확도 Relevancy)
+
+https://esbook.kimjmin.net/05-search/5.3-relevancy
+
 # 유사도 모듈
 
 참고 블로그 - https://teahyuk.github.io/services/2019/07/25/elastic-search-scoring-analyzing.html
@@ -183,7 +340,9 @@ https://velog.io/@diane_at_work/Elasticsearch-%EA%B8%B0%EB%B3%B8-score-%EA%B3%84
 
 
 
+# 벡터 필드를 이용한 텍스트 유사도 검색 
 
+https://www.elastic.co/kr/blog/text-similarity-search-with-vectors-in-elasticsearch
 
 
 
@@ -283,8 +442,4 @@ POST /wiki/_analyze
 
 
 
-
-# 벡터 필드를 이용한 텍스트 유사도 검색 
-
-https://www.elastic.co/kr/blog/text-similarity-search-with-vectors-in-elasticsearch
 

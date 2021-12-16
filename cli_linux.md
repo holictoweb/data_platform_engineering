@@ -87,3 +87,15 @@ rm -f testlink
 
 ```
 
+
+
+
+
+# find
+
+```bash
+find . -name "test-go.log"
+```
+
+
+

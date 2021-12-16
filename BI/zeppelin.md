@@ -111,6 +111,31 @@ mongo --host tf-dev-docdb-cluster-vst.cluster-c6btgg8fszdb.ap-northeast-2.docdb.
 </property>
 ```
 
+
+
+# shiro login
+
+- id / pw 생성
+
+```python
+# zeppelin/conf/shiro.ini
+shiro.ini.template 를 복사 하여 생성
+
+[users]
+# List of users with their password allowed to access Zeppelin.
+# To use a different strategy (LDAP / Database / ...) check the shiro doc at http://shiro.apache.org/configuration.html#Configuration-INISections
+# To enable admin user, uncomment the following line and set an appropriate password.
+#admin = password1, admin
+user1 = password2, role1, role2
+user2 = password3, role3
+user3 = password4, role2
+
+```
+
+- role 생성 
+
+
+
 # mysql interpreter 연결
 
 - jdbc 커넥터 라이브러리 필요 
@@ -131,15 +156,16 @@ wget http://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-8.0.11.
 [mysql document](https://zeppelin.apache.org/docs/latest/interpreter/jdbc.html#mysql)
 
 - create interpreter
+- zepplin 이 세션을 잡은 이후 8시간 ( mysql timeout 설정 ) 이후 connection 이 끊기는 현상으로 연결 마다 신규 생성 하는 형태로 추가 필요 
 
 #####  Properties
 
-|       Name       |            Value             |
-| :--------------: | :--------------------------: |
-|  default.driver  |    com.mysql.jdbc.Driver     |
-|   default.url    | jdbc:mysql://localhost:3306/ |
-|   default.user   |          mysql_user          |
-| default.password |        mysql_password        |
+|       Name       |                        Value                        |
+| :--------------: | :-------------------------------------------------: |
+|  default.driver  |                com.mysql.jdbc.Driver                |
+|   default.url    | jdbc:mysql://localhost:3306?**autoReconnect**=true/ |
+|   default.user   |                     mysql_user                      |
+| default.password |                   mysql_password                    |
 
 ##### Dependencies
 
@@ -176,15 +202,6 @@ mongodb://root:<insertYourPassword>@tf-dev-docdb-cluster-vst-0.c6btgg8fszdb.ap-n
 
 # zeppelin output
 
-## pandas dataframe output 
-
-- 실제 3개 컬럼만 출력
-
-```
-```
-
-
-
 ## output limit (X)
 
 ```
@@ -195,4 +212,12 @@ zeppelin.websocket.max.text.message.size = 102400000
 
 
 _ _ _
+
+
+
+# zeppelin notebook api 
+
+https://zeppelin.apache.org/docs/0.10.0/usage/rest_api/notebook.html
+
+
 
