@@ -56,6 +56,4 @@ ft.get_nearest_neighbors('우주항공', k=30)
 ```
 
 
-
-
-
+# fasttext 재학습

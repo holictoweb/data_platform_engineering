@@ -172,3 +172,13 @@ p.add_tools(HoverTool(
 show(p)
 ```
 
+
+
+
+# bokeh plot tools
+
+https://docs.bokeh.org/en/latest/docs/user_guide/tools.html
+
+```python
+
+```

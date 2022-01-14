@@ -1,4 +1,20 @@
 
+# sagemaker boto3
+- https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/sagemaker.html
+- 기본적인 boto3 clinet 생성
+
+```py
+import boto3
+
+region = 'ap-northeast-2'
+client = boto3.client('sagemaker', region_name = region)
+
+account = '445772965351'
+image = "{}.dkr.ecr.{}.amazonaws.com/pytorch-extending:latest".format(account, region)
+# role = get_execution_role()
+role = 'arn:aws:iam::445772965351:role/fngo-sagemaker-execution-role'
+```
+
 
 
 - metric 정보 저장
@@ -100,6 +116,18 @@ res_ner = client.describe_endpoint(
         )
 
 ```
+
+
+
+
+# Sagemaker Endpoint
+
+
+
+- serverless inference
+- https://aws.amazon.com/ko/about-aws/whats-new/2021/12/amazon-sagemaker-serverless-inference/
+  
+
 
 
 

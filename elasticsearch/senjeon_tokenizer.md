@@ -1,4 +1,6 @@
 
+- 기본 사항 정보 (blog)
+https://daedamee.tistory.com/17
 
 # 엽전한닙 config
 

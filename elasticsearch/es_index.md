@@ -303,7 +303,28 @@ GET /dart_dev/_analyze
 ```
 
 
+# mapping 정보 확인
 
+```py
+from opensearchpy import OpenSearch, RequestsHttpConnection
+
+host = 'search-aicel-dev-opensearch-atjh5v2uxhbyirzplkdeshaguu.ap-northeast-2.es.amazonaws.com' # For example, my-test-domain.us-east-1.es.amazonaws.com
+region = 'ap-northeast-2' # e.g. us-west-1
+
+service = 'es'
+auth = ('aicel', 'Aicel2021!')
+oss_client = OpenSearch(
+    hosts = [{'host': host, 'port': 443}],
+    http_auth = auth,
+    use_ssl = True,
+    verify_certs = True,
+    connection_class = RequestsHttpConnection
+)
+
+
+current_mapping = oss_client.indices.get_mapping('dart_company_overview')
+pprint(current_mapping)
+```
 
 
 
@@ -443,3 +464,16 @@ POST /wiki/_analyze
 
 
 
+# alias 사용
+
+- alias를 사용 하여 index가 업데이트 되더라도 추가 코드 변경을 막아줌
+- https://www.elastic.co/guide/en/elasticsearch/reference/6.7/indices-aliases.html
+
+
+```py
+
+
+
+
+
+```

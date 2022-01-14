@@ -6,6 +6,7 @@ import datetime
 # 현재 시간 가져 오기 
 current = datetime.datetime.now()
 
+
 # 1시간 후 
 one_hour_later = current + datetime.timedelta(hours=1) 
 
@@ -32,7 +33,7 @@ print(date_time_obj)
 
 # timezone now 
 from pytz import timezone
-current = datetime.datetime.now(timezone('Asia/Seoul')
+current = datetime.datetime.now(timezone('Asia/Seoul'))
                                 
                                 
 # 소요 시간 확인 용
@@ -107,6 +108,24 @@ df = pd.io.json.json_normalize(jsonstr)
 
 ```
 
+# zipfile 핸들링
+```py
+import zipfile
+
+local_path = '/home/ubuntu/data/'
+local_file = 'CORPCODE.zip'
+
+
+remote_url = f"https://opendart.fss.or.kr/api/corpCode.xml?crtfc_key={crtfc_key}"
+data = requests.get(remote_url)
+# Save file data to local copy
+with open(local_path + local_file, 'wb')as file:
+    file.write(data.content)
+
+with zipfile.ZipFile(local_path + local_file, 'r') as zip_ref:
+    zip_ref.extractall(local_path)
+
+```
 
 
 

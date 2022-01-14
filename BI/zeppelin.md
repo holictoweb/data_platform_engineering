@@ -3,6 +3,10 @@
 ##  jdk 설치 
 
 ```bash
+# apt update & upgrade
+sudo apt update
+sudo apt upgrade
+
 # JDK 설치 
 sudo apt install openjdk-8-jre-headless
 
@@ -22,6 +26,7 @@ export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 
 ```bash
 # zepplein 설치
+# 버젼 확인 https://zeppelin.apache.org/download.html
 wget https://dlcdn.apache.org/zeppelin/zeppelin-0.10.0/zeppelin-0.10.0-bin-all.tgz
 
 # 압축해제
@@ -55,7 +60,7 @@ tar -xzvf zeppelin-0.10.0-bin-all.tgz
 
 
 ```bash
-
+# 아래 내용은 불필요 한것으로 보임
 # 필요한 부분 설정 필요 
 
 export JAVA_HOME=C:\Program Files\Java\jdk1.8.0_201

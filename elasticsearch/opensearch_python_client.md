@@ -46,6 +46,7 @@ oss_client = OpenSearch(
 - 직접 입력 혹은 ec2의 role을 통해 인증 하는 경우 
 
 ```python
+from opensearchpy import OpenSearch, RequestsHttpConnection
 host = 'search-aicel-dev-opensearch-atjh5v2uxhbyirzplkdeshaguu.ap-northeast-2.es.amazonaws.com' 
 region = 'ap-northeast-2'
 service = 'es'
@@ -93,7 +94,7 @@ request_body = {
 oss_client.indices.reindex(request_body)
 ```
 
-
+# alias
 
 ```python
 # alias
@@ -114,7 +115,12 @@ request_body = {
   ]
 }
 
-oss_client.indices.ali
+
+# alias 를 생성하며 인덱스 전달 
+res = oss_client.indices.put_alias(index='company_overview_' + timestamp, name = 'company_overview')
+        pprint(res)
+
+
 
 ```
 
@@ -143,7 +149,28 @@ res = oss_client.indices.put_settings( index = 'dart_report_search_custom_2', bo
 pprint(res)
 ```
 
+```python
 
+oss_client.close(index='dart_report_search_custom', wait_for_active_shards=0)
+```
+
+# index mapping update 
+
+```py
+put_mapping(body, index=None, doc_type=None, params=None, headers=None)
+
+
+request_body={
+  "properties": {
+    "synonyms": {
+      "type": "text",  "analyzer": "korean" , "search_analyzer": "korean" 
+    }
+  }
+}
+res = oss_client.indices.put_mapping(index = 'wiki_dev', body = request_body)
+pprint(res)
+
+```
 
 #  data
 
@@ -154,7 +181,14 @@ res = oss_client.cat.count('naver_news_2')
     
 ```
 
+# search
 
+```py
+res = oss_client.search(index = 'wiki_dev', body = {"query":{"match":{	"title":"동군연합"}}})
+pprint(res['hits']['hits'])
+
+
+```
 
 # Sort
 

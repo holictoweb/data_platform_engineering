@@ -62,6 +62,19 @@ connection.close()
 
 ```
 
+2. sqlalchemy 연결
+```py
+
+fngo_con_str = 'mysql+pymysql://fngo:fngofinance@bigfinance-dev.c6btgg8fszdb.ap-northeast-2.rds.amazonaws.com/fngo'
+fngo_engine = create_engine(fngo_con_str)
+fngo_con = fngo_engine.connect()
+# read
+df_gn_company = pd.read_sql('select * from gn_company', con=news_con )
+# write
+df_sync.to_sql(name='gn_{}'.format(table), con=news_con, if_exists='append', index=False)
+```   
+
+
 
 
 # USER
@@ -104,8 +117,20 @@ select count(*) from information_schema.processlist where command='Sleep';
 # Column 변경
 
 ```sql
- alter table gn_news_nlp_job add batch_flag tinyint(1) NOT NULL DEFAULT '0'
+alter table gn_news_nlp_job add batch_flag tinyint(1) NOT NULL DEFAULT '0'
+alter table gn_company add insert_date datetime NOT NULL DEFAULT '20211231'
 
- alter table gn_news_nlp_job drop column batch_flag
+alter table gn_news_nlp_job drop column batch_flag
 ```
 
+
+
+
+_ _ _ 
+
+
+# session check
+
+```sql 
+show processlist;
+```
