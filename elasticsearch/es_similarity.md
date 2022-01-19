@@ -24,6 +24,7 @@ avgdl = average length of field
 ```
 
 1. simirality 를 적용 하더라도 simirality 를 mapping 하기 위한 작업이 re-index 가 필요 
+2. 
 
 
 ## DFR 적용

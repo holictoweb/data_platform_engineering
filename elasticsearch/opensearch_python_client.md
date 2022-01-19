@@ -188,6 +188,7 @@ res = oss_client.search(index = 'wiki_dev', body = {"query":{"match":{	"title":"
 pprint(res['hits']['hits'])
 
 
+
 ```
 
 # Sort

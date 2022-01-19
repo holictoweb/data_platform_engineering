@@ -41,7 +41,7 @@ response = client.describe_tasks(
 )
 
 
-response = client.describe_tasks(cluster='tf-dev-cluster-vst', task=''
+response = client.describe_tasks(cluster='tf-dev-cluster-vst', task='arn:aws:ecs:ap-northeast-2:445772965351:task/tf-dev-cluster-vst/0c72b37602fd430a9dc17ea60dff19f7')
 
 
 ```

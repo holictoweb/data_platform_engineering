@@ -14,6 +14,22 @@ pd.set_option('mode.chained_assignment',  None)
 ```
 
 
+# display setting
+- df 에 바로 적용 하여 수행  
+```py
+heading_properties = [('font-size', '18px')]
+cell_properties = [('font-size', '16px')]
+
+dfstyle = [dict(selector="th", props=heading_properties), dict(selector="td", props=cell_properties)]
+
+df.style.set_table_styles(dfstyle)
+
+# 간단하게 전체에 적용
+display(df.style.set_table_attributes('style="font-size: 17px"'))
+
+```
+
+
 # select 
 ### 1. column 선택
 
@@ -107,9 +123,6 @@ df.loc['six',:] = [2013,'Jun',4.0,0.1,2.1]
 
 
 ```
-
-
-
 
 
 - - -

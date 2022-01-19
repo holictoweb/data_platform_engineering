@@ -17,6 +17,7 @@ conn = db_connection.connect()
 
 df.to_sql(name='db의 테이블이름', con=db_connection, if_exists='append',index=False)  
 
+
 ```
 
 
