@@ -19,11 +19,24 @@ yellow open   dart_report_search_all          ZLHN4DcWQIuEWRsD9bV6Fw   5   1    
 
 - pri 가 shard 넘버 이며 해당 shard 에 저장... 실제 
 
-# shard 확인
+# thread pool 확인 
 
-```
+```py
+# thread pool 확인 
+GET /_cat/thread_pool
 
 
+# 전체 정보 확인 
+GET /_cat/thread_pool/?v&h=id,name,active,queue,rejected,completed,size,type&pretty
+
+id                     name                                   active rejected completed size type
+Q2xBBpBPRy2lI2GztEo2tg ad-batch-task-threadpool                    0        0         0      scaling
+Q2xBBpBPRy2lI2GztEo2tg ad-threadpool                               0        0         0      scaling
+Q2xBBpBPRy2lI2GztEo2tg analyze                                     1        0      2602    1 fixed
+
+
+# hot 상태 인 thoread 확인
+GET /_nodes/hot_threads
 
 ```
 
