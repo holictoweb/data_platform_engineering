@@ -20,6 +20,12 @@ df_update=pd.merge(df_pivot,df_check,how="outer",indicator=True)
  df_delete=df_update[df_update['_merge']=='right_only']
 
 
+# example
+df_merge_parent = pd.merge(df_holdings, df_overview, how='left', on='jurir_no')
+df_merge = pd.merge(df_merge_parent[['stock_name', 'stock_code'] + holdings_columns ], df_overview[['jurir_no', 'stock_name', 'stock_code']], how='left', left_on='cdpny_jurir_no', right_on='jurir_no')
+df_merge.rename(columns = {'stock_name_x': 'stock_name', 'stock_code_x': 'stock_code', 'jurir_no_x': 'jurir_no', 'stock_name_y': 'sub_stock_name', 'stock_code_y': 'sub_stock_code'}, inplace = True)
+display(df_merge)
+
 ```
 
 2, 변경 되거나 추가된 데이터 확인
@@ -51,7 +57,30 @@ for table in target_table:
 
 ```
 
+# group by
+## idxmax 
+```py
+# max 값의 id를 반환하여 해당 row 조회 
+# type 이 numeric이어야함. 
+df_result['hits'] = df_result['hits'].astype('int')
+print(df_result.dtypes)
 
+display(df_result.loc[df_result.groupby(['private'])["hits"].idxmax()])
+
+```
+## concatnate
+
+```py
+df.groupby(['name','month'])['text'].apply(','.join).reset_index()
+
+# group by 의 결과는 dict 
+group_dict = df_group.groupby(['group','company_type']).apply(lambda x: ','.join(x.company_name))
+
+df_target = pd.DataFrame(group_dict)
+display( df_target ) 
+
+
+```
 
 # display data
 ```python
@@ -199,7 +228,6 @@ Out[140]:
 # slice 한 df의 index를 재 설정
 df_save_m.reset_index(drop=True, inplace=True)
 
-# 
 
 ```
 

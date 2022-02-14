@@ -24,7 +24,31 @@ with open(local_file, 'wb') as f:
 ```
 
 # s3 데이터 로드 
+- s3 의 파일을 직접 읽는 방식 
+```py
+pip install s3fs
 
+import pandas as pd
+import boto3
+import io
+
+s3_client = boto3.client("s3")
+
+obj = s3_client.get_object(Bucket="nlp-entity-linking-train-set", Key="rsc/company_people.txt")
+print (obj)
+target_columns = ['stock_code', 'info']
+df_people = pd.read_csv(io.BytesIO(obj["Body"].read()), sep='\t', header=None, names=target_columns, dtype={'stock_code':str,'info':str}  )
+
+df_people['info']  = df_people['info'].astype(str).apply(lambda x : x.replace('"', '').replace('[', ' ').replace(']', ' ') )
+display(df_people)
+
+```
+
+# s3 특정 object exists check
+
+```py
+
+```
 
 # s3 list 및 버킷에 있는 오브젝트 확인
 

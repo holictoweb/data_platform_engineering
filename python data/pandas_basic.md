@@ -5,6 +5,8 @@
 
 # data 정보 조회
 
+
+# display setting
 ```python
 pd.set_option('display.max_columns', None)
 pd.set_option('max_colwidth', None)
@@ -30,6 +32,40 @@ display(df.style.set_table_attributes('style="font-size: 17px"'))
 ```
 
 
+# apply 
+
+- 개별 칼럼에 데이터 변경 적용 
+- string 으로 변환 하여 적용 후 칼럼에추가 적용 
+```py
+df_overview['adres'] = df_overview['adres'].astype(str).apply(lambda x: ' '.join(x.split(' ')[:2]) )
+
+
+```
+
+
+# type change
+```py
+data['Date_Time'] = pd.to_datetime(data['Date_Time'])
+
+```
+
+# read_csv
+
+```py
+import pandas as pd
+import boto3
+import io
+
+s3_client = boto3.client("s3")
+
+obj = s3_client.get_object(Bucket="nlp-entity-linking-train-set", Key="rsc/company_people.txt")
+print (obj)
+target_columns = ['stock_code', 'info']
+df_people = pd.read_csv(io.BytesIO(obj["Body"].read()), sep='\t', header=None, names=target_columns, dtype={'stock_code':str,'info':str}  )
+
+df_people['info']  = df_people['info'].astype(str).apply(lambda x : x.replace('"', '').replace('[', ' ').replace(']', ' ') )
+display(df_people)
+```
 # select 
 ### 1. column 선택
 
@@ -153,7 +189,11 @@ df_row_reindex = pd.concat([df1, df2], igonore_index = True)
 - row 단위로 데이터 추가
 
 ```python
+
 # list -> dataframe
+
+df.loc[len(df)] = ['list','data']
+
 
 ```
 

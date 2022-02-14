@@ -134,3 +134,39 @@ _ _ _
 ```sql 
 show processlist;
 ```
+
+
+
+# group by concatenate string
+
+```sql
+select a.unitygrupnm, GROUP_CONCAT(enppbancmpynm SEPARATOR ', ')
+from gn_company_group a
+join gn_company_group_overview b
+	on a.jurirno = b.crno
+group by a.unitygrupcode
+
+select a.unitygrupnm as 'group'
+, GROUP_CONCAT( case when c.stock_code is not null then enppbancmpynm end SEPARATOR ',') as 'listed'
+, GROUP_CONCAT( case when c.stock_code is null then enppbancmpynm end SEPARATOR ',') as 'private'
+-- select * 
+from gn_company_group a
+join gn_company_group_overview b
+    on a.jurirno = b.crno
+left outer join gn_company_overview  c
+	on a.jurirno = c.jurir_no and c.corp_cls in ('Y', 'K') 
+group by a.unitygrupcode
+having listed is not null
+
+
+```
+
+
+
+# collation
+```sql
+```
+
+
+OperationalError: (1267, "Illegal mix of collations (utf8mb4_0900_ai_ci,IMPLICIT) and (utf8mb4_general_ci,IMPLICIT) for operation '='")
+

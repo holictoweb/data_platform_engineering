@@ -337,3 +337,22 @@ var scope = angular.element(element.parent('.ng-scope')).scope().compiledScope;
 
 ```
 
+
+# angular
+
+# 1. checkbox
+```py
+
+angular_check = '' #초기화
+for idx in range(len(keyword_list)):
+    checkbox_id = 'check_'+str(idx)
+    angular_check = angular_check + f'''
+    <div class="form-check form-check-inline col-md-1" style="font-size: 0.7em">
+        <input class="form-check-input" type="checkbox" value="" id="{keyword_list[idx]}" onclick="appendSerch('{keyword_list[idx]}')">
+        <label class="form-check-label" for="{keyword_list[idx]}">
+        {keyword_list[idx]}
+        </label>
+    </div>
+    '''
+angular_synonym = '<div class="row col-lg-12">' + angular_check + '</div>' 
+```

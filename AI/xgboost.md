@@ -1,8 +1,12 @@
 # ref
 - 공식문서
-- https://xgboost.readthedocs.io/en/stable/prediction.html
+  - https://xgboost.readthedocs.io/en/stable/prediction.html
 
 
+
+- bayesian optimization
+  - https://github.com/fmfn/BayesianOptimization
+  - pip install bayesian-optimization
 
 
 
@@ -12,7 +16,7 @@
     - nthread : 몇 개의 쓰레드를 동시에 처리 하도록 할지 결정. default '가능한 많이'
     - num_feature : feature  차원의 숫자를 정해야 하는 경우 옵션을 셋팅. default '가능한 많이'
 2. booster paramters
-    - eta
+    - eta 
     - gamma : 디폴트 0 작을 수록 보수적 모델
     - max_depth : 숫자가 커질 수록 모델의 복잡도가 높아지고 과적하기 쉽다.  디폴트 6 이대 리프 노드의 개수는 최대 2^6 = 64개 이다. 
     - lambda (L2 reg-form) : tntwkrk zmftnfhr 
@@ -186,37 +190,3 @@ conda install -c nvidia -c rapidsai py-xgboost
 
 
 
-
-
-# 실험 진행 사항 
-{'learning_rate': 0.35, 'max_depth': 15, 'min_child_weight': 1, 'n_estimators': 70}
-
-accuracy score :  0.9991358889170304
-precision score :  0.6363636363636364
-recall_score :  0.11475409836065574
-f1 :  0.19444444444444445
-auc :  0.5573472251421531
-
-
-# Use "gpu_hist" for training the model.
-holic_model = xgb.XGBClassifier(
-    tree_method="hist", 
-    booster='gbtree',
-    use_label_encoder=False,
-    learning_rate=0.35,
-    min_child_weight=0.9,
-    n_estimators=50,
-    objective='binary:logistic', #'binary:logistic','binary:logitraw','binary:hinge'
-    max_depth=15,
-    colsample_bytree=0.8,
-    colsample_bylevel=0.9,
-    num_parallel_tree=1
-    # random_state=
-)
-confusion matrix :  [[67059     1]
- [   54     7]]
-f1 :  0.20289855072463767
-accuracy score :  0.9991805843178737
-precision score :  0.875
-recall_score :  0.11475409836065574
-auc :  0.557369593170784
