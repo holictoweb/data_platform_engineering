@@ -170,3 +170,27 @@ having listed is not null
 
 OperationalError: (1267, "Illegal mix of collations (utf8mb4_0900_ai_ci,IMPLICIT) and (utf8mb4_general_ci,IMPLICIT) for operation '='")
 
+
+
+
+
+
+
+# index 
+
+```sql
+CREATE INDEX idx1 ON t1 ((col1 + col2));
+
+DROP INDEX index_name ON tbl_name
+
+
+```
+
+
+
+
+# DATE
+
+## date 기준 변경 조회
+```sql
+```

@@ -1,5 +1,9 @@
 
 
+![링크](https://miro.medium.com/max/1400/1*87eR1mcwoosszpb_m1K1wg.png)
+
+
+
 # F1 score 
 
 
@@ -39,39 +43,29 @@ https://injo.tistory.com/44
 
 - - -
 
-# history
 
+- 불균형 데이터 처리 
+How to Configure XGBoost for Imbalanced Classification
+
+
+- - -
+
+# parameter tunning
+
+- learning rate 
 ```py
-holic_model = xgb.XGBClassifier(
-    tree_method="hist", booster='gbtree', use_label_encoder=False, objective='binary:logistic', 
+부스팅 각 이터레이션 마다 곱해지는 가중치(loss function의 step size)로 모형 성능과 학습시간에 영향을 준다.
 
-    
-    
+보통 작을수록 모형 성능 향상에 도움이 되지만 학습 시간은 길어지는 trade-off가 있다.
 
-    colsample_bylevel=0.84109,
-    colsample_bytree=0.8502, 
-    gamma=0.76004, 
-    learning_rate=0.3972,
-    max_delta_step=0.94751,
-    max_depth=7,
-    min_child_weight=0.99936, 
-    n_estimators=700,
-    reg_lambda=1.00208,
-    reg_alpha=0,
-    scale_pos_weight=0.9774, # 음성 데이터 수/ 양성 데이터 수 값
-    num_parallel_tree=1,
-)
-'''
-'colsample_bylevel': 0.8410922557785607,
-  'colsample_bytree': 0.8502017422414512,
-  'gamma': 0.7600464624092124,
-  'learning_rate': 0.39720456126623527,
-  'max_delta_step': 0.9475119514527265,
-  'max_depth': 6.204319788151851,
-  'min_child_weight': 0.999361237466811,
-  'n_estimators': 525.7258113847278,
-  'reg_lambda': 1.0020829366882584,
-  'scale_pos_weight': 0.9774478735663362
-'''
+하이퍼파라미터 튜닝시에는 0.1~0.3 정도의 값을 사용하고, 최종 모형 학습시에는 0.05이하의 값을 사용하는 것이 좋다.  
+
+learning rate를 옵티마이저에 넣어서 튜닝할 필요는 없다. 주어진 컴퓨팅 환경을 고려하여 적당한 값을 정한 후 그 값에서 다른 파라미터들을 튜닝하는 것이 좋다. 옵티마이저에 learning rate를 포함시켜서 0.0202048 같은 값에 오버피팅 시키는 것은 불필요한 시도이다.
+
+단, learning rate를 크게 잡았을때 모형 적합이 잘 되지 않는다면, 이 값을 기준으로 튜닝한 다른 하이퍼파라미터의 조합이 learning rate를 낮추었을때는 최적 조합이 아니게 될 가능성이 높다. 경험상 하이퍼파라미터 튜닝시에도 learning rate를 너무 큰 값으로는 설정하지 않는 것이 좋다.  
+
 
 ```
+
+
+- maxi

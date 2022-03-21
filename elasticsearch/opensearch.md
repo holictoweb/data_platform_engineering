@@ -119,3 +119,21 @@ _ _ _
 ```bash
 bin/logstash -f ~/logstash/config/logstash_mongo_jdbc.conf
 ```
+
+
+# packages
+## user words
+- user words 업로드 후 적용 방법. 
+
+```py
+opensearch = boto3.client('opensearch')
+
+print(package_id, bucket_name, s3_key)
+response = opensearch.update_package(
+    PackageID= package_id,
+    PackageSource={
+        'S3BucketName': bucket_name,
+        'S3Key': s3_key
+    }
+)
+```

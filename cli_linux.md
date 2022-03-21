@@ -57,7 +57,6 @@ lsblk
 sudo growpart /dev/nvme0n1 1
 
 
-
 ```
 
 

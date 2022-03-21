@@ -5,7 +5,7 @@
 
 # join 
 
-1. merge 
+## 1. merge 
    
 ```py
 
@@ -28,7 +28,7 @@ display(df_merge)
 
 ```
 
-2, 변경 되거나 추가된 데이터 확인
+## 2, 변경 되거나 추가된 데이터 확인
 
 ```py
 target_table = ['company', 'company_filters', 'company_whitelist']
@@ -57,6 +57,25 @@ for table in target_table:
 
 ```
 
+## 3. concat
+```py
+ 
+
+# concatenating DataFrames along columns, axis=1
+In [11]: df_13_axis1 = pd.concat([df_1, df_3], axis=1) # column bind
+
+
+In [12]: df_13_axis1
+Out[12]:
+
+     A   B   C   D    E    F    G   H
+0  A0  B0  C0  D0  A6  B6  C6  D6
+1  A1  B1  C1  D1  A7  B7  C7  D7
+2  A2  B2  C2  D2  A8  B8  C8  D8
+
+
+
+```
 # group by
 ## idxmax 
 ```py

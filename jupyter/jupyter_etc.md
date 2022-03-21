@@ -17,6 +17,7 @@ jupyter lab path
 # 커널 등록 (conda 환경 ) 
 python -m ipykernel install --user --name={kernelname conda env name}
 python -m ipykernel install --user --name bitlab --display-name bitlab
+python -m ipykernel install --user --name holic --display-name holic
 
 # drop 커널
 jupyter kernelspec uninstall {kernelname}

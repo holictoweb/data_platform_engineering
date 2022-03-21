@@ -1,3 +1,27 @@
+# EFS 생성 
+```bash
+
+# unmount 
+umount /mnt/efs
+
+# mount 대상 생성
+mkdir ~/airflow/dags
+
+
+# util 설치 
+sudo apt install awscli
+sudo apt-get install nfs-common 
+
+# mount efs (efs 콘솔의 attch 버튼을 통해 확인 가능 )
+sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport fs-0335cd93fd5b85996.efs.ap-northeast-2.amazonaws.com:/ ~/airflow/dags
+
+# mount 후에 루트 사용자에 권한 추가
+cd ~/airflow/dags
+sudo chmod go+rw .
+```
+
+
+
 ## EFS mount 확인
 
 

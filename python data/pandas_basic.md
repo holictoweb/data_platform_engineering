@@ -13,12 +13,8 @@ pd.set_option('max_colwidth', None)
 pd.set_option('display.max_rows', None)
 pd.options.display.float_format = '{:.2f}'.format
 pd.set_option('mode.chained_assignment',  None)
-```
 
-
-# display setting
-- df 에 바로 적용 하여 수행  
-```py
+# df에 바로 적용 
 heading_properties = [('font-size', '18px')]
 cell_properties = [('font-size', '16px')]
 
@@ -31,8 +27,8 @@ display(df.style.set_table_attributes('style="font-size: 17px"'))
 
 ```
 
-
-# apply 
+# TYPE/DATA CHANGE
+## 1. apply 
 
 - 개별 칼럼에 데이터 변경 적용 
 - string 으로 변환 하여 적용 후 칼럼에추가 적용 
@@ -42,10 +38,13 @@ df_overview['adres'] = df_overview['adres'].astype(str).apply(lambda x: ' '.join
 
 ```
 
-
-# type change
+## 2. pd.to_datetime
 ```py
 data['Date_Time'] = pd.to_datetime(data['Date_Time'])
+
+df['DataFrame Column'] = pd.to_datetime(df['DataFrame Column'], format='%Y%m%d')
+
+
 
 ```
 
@@ -194,8 +193,13 @@ df_row_reindex = pd.concat([df1, df2], igonore_index = True)
 
 df.loc[len(df)] = ['list','data']
 
+# dict -> dataframe
+output = pd.DataFrame()
+output = output.append(dictionary, ignore_index=True)
+print(output.head())
 
 ```
+
 
 
 

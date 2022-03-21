@@ -1,15 +1,35 @@
-## git 
+# git 설치 
 
-0. git config --global user.name "joonik.lee"
-   git config --global user.email holictoweb@gmail.com
+```bash
+# 설치
+sudo apt-get install git
+
+# 정보 입력  
+git config --global user.name joonik
+git config --global user.mail holictoweb@gmail.com
+
+# git init 
+git config --global user.name "joonik.lee"
+git config --global user.email joonik.lee@aicelthech.com
+
 1. mkdir A
 2. cd A 
 3. git init
-4. git remote add origin https://github.com/holictoweb/bitlab.git
+git remote add origin https://github.com/fngo-bigfinance/aicel-dashboard.git
     - 원격 저장소 확인 
 
+
 ```
+
+# 현재 git 연결 상태 확인
+```bash
+git remote -v
+
 ```
+
+## git 
+
+
 
 
 
