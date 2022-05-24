@@ -94,20 +94,39 @@ https://docs.aws.amazon.com/AmazonECS/latest/userguide/scheduled_tasks.html
 ```bash
 
 aws ecs run-task \
-    --cluster dev-aicel-cluster  \
-    --task-definition dev-task-definition-02 \
-    --network-configuration awsvpcConfiguration="{subnets=['subnet-246db769'],assignPublicIp=ENABLED}" \
+    --cluster ML-NewsCrawler  \
+    --task-definition ml_news_clustering_prod \
+    --network-configuration awsvpcConfiguration="{subnets=['subnet-2fead946'],assignPublicIp=ENABLED}" \
     --enable-execute-command \
+    --overrides {"containerOverrides": [{"environment": [{"name": "APP_ENV","value":"production"}]} ] } 
     --launch-type FARGATE \
-    --tags key=environment,value=production \
+    --tags key=env,value=production \
     --platform-version '1.4.0' \
     --region ap-northeast-2
+
+"containerOverrides": [
+            {
+                "name": ML_NEWS_CLUSTERING,
+                "command": ["python3","-m","src.scripts.create_news_clustering_job","-b","-f", from_date, "-t", to_date],
+                
+                "environment": [
+                    {
+                        "name": "APP_ENV",
+                        "value": CONTAINER_ENV
+                    }
+                ],
+                'cpu': 4096,
+                'memory': 30720,
+
+            },
+
+
 
 
 # 생성 후 task 확인 
 aws ecs describe-tasks \
-    --cluster dev-aicel-cluster \	
-    --tasks 88cde14d6c4d4e30a3d75403f7d22d7d
+    --cluster ML-NewsCrawler \
+    --tasks 126c6319670b4fd9a23fe700c258a6f8
 
 ```
 
@@ -117,6 +136,17 @@ aws ecs describe-tasks \
 
 ### ecs fargate container 접속 방법
 ```bash
+aws ecs execute-command \
+    --region ap-northeast-2 \
+    --cluster ML-NewsCrawler \
+    --task 126c6319670b4fd9a23fe700c258a6f8 \
+    --container ml_news_clustering_prod \
+    --interactive \
+    --command "/bin/bash"
+
+
+
+
 AWS_REGION="ap-northeast-2"
 
 aws ecs execute-command  \
@@ -135,13 +165,6 @@ aws ecs execute-command \
     --interactive \
     --command "/bin/sh"
 
-aws ecs execute-command \
-    --region ap-northeast-2 \
-    --cluster dev-aicel-cluster \
-    --task 33f9704effdb49f69ac62ca007907a59 \
-    --container dev-task-definition-02 \
-    --interactive \
-    --command "/bin/bash"
 
 aws ecs execute-command \
     --region ap-northeast-2 \

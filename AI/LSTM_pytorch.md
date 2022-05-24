@@ -45,3 +45,9 @@ train_y_tensor = Variable(torch.Tensor(train_y))
 ![](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=http%3A%2F%2Fcfile3.uf.tistory.com%2Fimage%2F9901A1415ACB86A0211095)
 
 
+
+- LSTM
+![](https://miro.medium.com/max/1400/1*hQeBYYqZa-Qc3ss8q6J0Mg.png)
+
+- GRU
+![](https://miro.medium.com/max/1400/1*8JvGcDVY0tgCVMlpjY2sag.png)

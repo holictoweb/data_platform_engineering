@@ -29,3 +29,20 @@ Login Succeeded
 
 ```
 
+
+
+
+# aws 공식 이미지를 사용 하기 위해서 해당 ecr로 로그인이 필요 
+```
+aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin 763104351884.dkr.ecr.ap-northeast-2.amazonaws.com
+
+
+```
+
+```
+aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin 445772965351.dkr.ecr.ap-northeast-2.amazonaws.com/ml/serve-fasttext
+
+```
+
+
+# 이미지 지정 방법 

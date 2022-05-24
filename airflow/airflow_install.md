@@ -205,6 +205,7 @@ sudo chmod 755 airflow-worker.service
 sudo systemctl daemon-reload
 sudo systemctl enable airflow-webserver.service
 sudo systemctl enable airflow-scheduler.service
+sudo systemctl enable airflow-worker.service
 
 sudo systemctl start airflow-webserver.service
 sudo systemctl start airflow-scheduler.service
@@ -218,6 +219,7 @@ sudo systemctl stop airflow-worker.service
 
 sudo systemctl status airflow-webserver.service
 sudo systemctl status airflow-scheduler.service
+sudo systemctl status airflow-worker.service
 
 # system log 확인 
 sudo nano /var/log/syslog

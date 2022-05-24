@@ -10,6 +10,9 @@ sudo apt upgrade
 # JDK 설치 
 sudo apt install openjdk-8-jre-headless
 
+# java version 확인
+java -version
+
 # JAVA_HOME 위치 확인
 which java 
 > /usr/bin/java
@@ -17,9 +20,18 @@ readlink -f /usr/bin/java
 > /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java
 
 # JAVA_HOME 추가 - 안됨.. 걍 export 함
-vi /etc/profile
+sudo vi /etc/profile
+
+# 위에 profile 설정으로 안됨
+vi ~/.bashrc
 
 export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+
+# 적용
+source ~/.bashrc
+
+# 확인
+echo $JAVA_HOME
 ```
 
 
@@ -29,8 +41,12 @@ export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 # 버젼 확인 https://zeppelin.apache.org/download.html
 wget https://dlcdn.apache.org/zeppelin/zeppelin-0.10.0/zeppelin-0.10.0-bin-all.tgz
 
+
+# 0.10.1
+wget https://dlcdn.apache.org/zeppelin/zeppelin-0.10.1/zeppelin-0.10.1-bin-all.tgz
+
 # 압축해제
-tar -xzvf zeppelin-0.10.0-bin-all.tgz 
+tar -xzvf zeppelin-0.10.1-bin-all.tgz 
 
 # zepplein 실행
 
@@ -156,6 +172,13 @@ META-INF  ansi.sql.keywords  interpreter-setting.json  postgresql-native-driver-
 ```bash
 # mysql 버젼 확인 후 동일 버젼 사용 
 wget http://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-8.0.11.tar.gz
+
+
+tar -xzvf mysql-connector-java-8.0.11.tar.gz 
+
+# 압축 해재후 jar 파일 복사 ( 해당 폴더 이동 )
+cp mysql-connector-java-8.0.11.jar ~/zeppelin/interpreter/jdbc/
+
 ```
 
 [mysql document](https://zeppelin.apache.org/docs/latest/interpreter/jdbc.html#mysql)

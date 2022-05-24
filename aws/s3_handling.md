@@ -21,6 +21,42 @@ local_file = '/home/ubuntu/data/wiki/alias_page.json'
 with open(local_file, 'wb') as f:
     s3.download_fileobj(pbucket, pkey, f)
 
+
+# access key & secret key
+# object list 가져 오기
+import boto3
+import pandas as pd
+import json
+
+aws_access_key_id = 'ee'
+aws_secret_access_key = 'wefqwef+/23'
+s3_client = boto3.client("s3", aws_access_key_id=aws_access_key_id, aws_secret_access_key=aws_secret_access_key)
+
+bucket = 'data-delivery-news'
+delivery_key = 'free-trial/'
+read_key = 'free-trial/2012/1/1/20120102.0000.csv' 
+
+
+objs = s3_client.list_objects(Bucket=bucket, Prefix =delivery_key)
+while 'Contents' in objs.keys():
+    objs_contents = objs['Contents']
+    for i in range(len(objs_contents)):
+        filename = objs_contents[i]['Key']
+        print(filename)
+# 파일 읽기
+import io
+
+response = s3_client.get_object(Bucket=bucket,Key=read_key)
+file = response["Body"].read()
+
+pd.read_csv(io.BytesIO(file), delimiter=",")
+# 파일 삭제
+res = s3_client.delete_object(Bucket=bucket,Key=read_key)
+print(res)
+
+# 파일 생성 
+key = 'free-trial/test.csv' 
+s3_client.put_object(Body='test', Bucket=bucket, Key=key)
 ```
 
 # s3 데이터 로드 

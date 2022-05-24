@@ -81,22 +81,34 @@ mongo --host tf-dev-docdb-cluster-vst.cluster-c6btgg8fszdb.ap-northeast-2.docdb.
 ```
 
 # pymongo
+```py
+moongocon = MongoClient(
+            host='tf-prod-123-124124-shx.cluster-c6btgg8fszdb.ap-northeast-2.docdb.amazonaws.com',
+            port=27017,
+            username='root',
+            password='1343',
+            retryWrites=False,
+        )
+
+
+mdb = moongocon.db
+```
 ## CRUD
 ```python
-# # 저장 - 예시
+# 저장 - 예시
 doc = {'name':'bobby','age':21}
 db.users.insert_one(doc)
-#
-# # 한 개 찾기 - 예시
+
+# 한 개 찾기 - 예시
 user = db.users.find_one({'name':'bobby'})
-#
-# # 여러개 찾기 - 예시 ( _id 값은 제외하고 출력)
+
+# 여러개 찾기 - 예시 ( _id 값은 제외하고 출력)
 same_ages = list(db.users.find({'age':21},{'_id':False}))
-#
-# # 바꾸기 - 예시
+
+# 바꾸기 - 예시
 db.users.update_one({'name':'bobby'},{'$set':{'age':19}})
-#
-# # 지우기 - 예시
+
+# 지우기 - 예시
 db.users.delete_one({'name':'bobby'})
 
 # 전체 삭제
@@ -106,6 +118,11 @@ x = mycol.delete_many({})
 ## 집계
 
 ```python
+# 전체 데이터 갯수 
 count = mdb.naver_news.estimated_document_count()
 print(count)
+
+
+# collection 생성 
+
 ```

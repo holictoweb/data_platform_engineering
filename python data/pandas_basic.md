@@ -65,6 +65,33 @@ df_people = pd.read_csv(io.BytesIO(obj["Body"].read()), sep='\t', header=None, n
 df_people['info']  = df_people['info'].astype(str).apply(lambda x : x.replace('"', '').replace('[', ' ').replace(']', ' ') )
 display(df_people)
 ```
+
+# json dict 처리 
+
+```python 
+import pandas as pd
+jsonStr = '''{"Index0":{"Courses": "Pandas","Discount": "1200"},
+           "Index1":{"Courses": "Hadoop","Discount": "1500"},
+           "Index2":{"Courses": "Spark","Discount": "1800"}
+          }'''
+# Convert JSON to DataFrame Using read_json()
+df2 = pd.read_json(jsonStr, orient ='index')
+print(df2)
+
+
+
+import pandas as pd
+import json
+from pandas import json_normalize
+json_string = '{ "Courses": "Spark", "Fee": 22000,"Duration":"40Days"}'
+data = json.loads(json_string)
+
+# Use pandas.DataFrame.from_dict() to Convert JSON to DataFrame
+df2 = pd.DataFrame.from_dict(data, orient="index")
+print(df2)
+
+
+```
 # select 
 ### 1. column 선택
 
@@ -235,3 +262,12 @@ for i in df.index:
 
 ```
 
+
+
+
+# datetime 
+
+```py
+
+
+```

@@ -40,12 +40,11 @@ pip install jupyter_contrib_nbextensions && jupyter contrib nbextension install
 ```
 http://localhost:8888/nbextensions  
 ```
-
-
-
-```
 jupyter labextension install @jupyterlab/plotly-extension
+
+
 ```
+
 
 
 ## matplotlib 한글 깨짐 현상 

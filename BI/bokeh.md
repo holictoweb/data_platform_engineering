@@ -8,11 +8,17 @@ https://docs.bokeh.org/en/latest/docs/reference/document.html
 
 ```bash
 pip install bokeh
-# zeppelin 에서 사용 하기 위해 필요 
+
+# zeppelin 에서 사용 하기 위해 bkzep 설치
 pip install bkzep
 ```
 
 
+### bokeh server 설치
+```bash
+
+
+```
 
 [Handling categorical data - bokeh doc](https://docs.bokeh.org/en/latest/docs/user_guide/categorical.html)
 
@@ -180,5 +186,89 @@ show(p)
 https://docs.bokeh.org/en/latest/docs/user_guide/tools.html
 
 ```python
+
+```
+
+
+# bokeh on notebook
+
+- https://github.com/bokeh/bokeh/blob/2.4.2/examples/howto/server_embed/notebook_embed.ipynb 
+
+
+
+```python
+
+
+# Embedding a Bokeh server in a Notebook
+# This notebook shows how a Bokeh server application can be embedded inside a Jupyter notebook.
+
+import yaml
+
+from bokeh.layouts import column
+from bokeh.models import ColumnDataSource, Slider
+from bokeh.plotting import figure
+from bokeh.themes import Theme
+from bokeh.io import show, output_notebook
+
+from bokeh.sampledata.sea_surface_temperature import sea_surface_temperature
+
+output_notebook()
+
+# There are various application handlers that can be used to build up Bokeh documents. For example, there is a ScriptHandler that uses the code from a .py file to produce Bokeh documents. This is the handler that is used when we run bokeh serve app.py. In the notebook we can use a function to define a Bokehg application.
+
+# Here is the function bkapp(doc) that defines our app:
+
+def bkapp(doc):
+    df = sea_surface_temperature.copy()
+    source = ColumnDataSource(data=df)
+
+    plot = figure(x_axis_type='datetime', y_range=(0, 25),
+                  y_axis_label='Temperature (Celsius)',
+                  title="Sea Surface Temperature at 43.18, -70.43")
+    plot.line('time', 'temperature', source=source)
+
+    def callback(attr, old, new):
+        if new == 0:
+            data = df
+        else:
+            data = df.rolling('{0}D'.format(new)).mean()
+        source.data = ColumnDataSource.from_df(data)
+
+    slider = Slider(start=0, end=30, value=0, step=1, title="Smoothing by N Days")
+    slider.on_change('value', callback)
+
+    doc.add_root(column(slider, plot))
+
+    doc.theme = Theme(json=yaml.load("""
+        attrs:
+            Figure:
+                background_fill_color: "#DDDDDD"
+                outline_line_color: white
+                toolbar_location: above
+                height: 500
+                width: 800
+            Grid:
+                grid_line_dash: [6, 4]
+                grid_line_color: white
+    """, Loader=yaml.FullLoader))
+
+# Now we can display our application using show, which will automatically create an Application that wraps bkapp using FunctionHandler. The end result is that the Bokeh server will call bkapp to build new documents for every new sessions that is opened.
+
+# Note: If the current notebook is not displayed at the default URL, you must update the notebook_url parameter in the comment below to match, and pass it to show.
+
+show(bkapp) # notebook_url="http://localhost:8888" 
+ 
+ 
+
+```
+
+
+
+# Callback
+
+## CustomJS callback
+```python
+
+
 
 ```

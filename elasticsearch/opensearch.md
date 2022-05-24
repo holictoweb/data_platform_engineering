@@ -124,16 +124,20 @@ bin/logstash -f ~/logstash/config/logstash_mongo_jdbc.conf
 # packages
 ## user words
 - user words 업로드 후 적용 방법. 
-
+- https://docs.aws.amazon.com/ko_kr/opensearch-service/latest/developerguide/custom-packages.html
 ```py
 opensearch = boto3.client('opensearch')
 
 print(package_id, bucket_name, s3_key)
-response = opensearch.update_package(
+3response = opensearch.update_package(
     PackageID= package_id,
     PackageSource={
         'S3BucketName': bucket_name,
         'S3Key': s3_key
     }
 )
+
+
 ```
+
+## 최초 package 등록 방법 

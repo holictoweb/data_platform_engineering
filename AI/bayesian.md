@@ -1,4 +1,10 @@
+
+
 # bayesian optimazation
+
+- ref
+- http://restanalytics.com/2021-08-12-BayesianOptimizationOptimization/
+
 
 ```py
 from bayes_opt import BayesianOptimization
@@ -68,3 +74,6 @@ xgboostBO.max # 찾은 파라미터 값 확인
   'subsample': 0.7691121454086095}}
   '''
 ```
+
+
+
