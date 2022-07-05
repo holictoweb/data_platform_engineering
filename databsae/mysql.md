@@ -294,3 +294,26 @@ ENGINE=MyISAM
 SELECT * FROM core.my_big_table
 ```
 
+
+# join update
+
+```sql
+update 
+gn_naver_news_meta me
+join 
+(
+select news_url_md5, GROUP_CONCAT(company_code SEPARATOR ', ') as 'company_code_list'
+from gn_news_company_table 
+where news_url_md5 in (
+select news_url_md5
+from gn_news_company_table
+where company_code = '250060' )
+group by news_url_md5
+) a
+	on a.news_url_md5 = me.news_url_md5
+join gn_news_company_table company
+	on company.news_url_md5 = me.news_url_md5 and company.company_code = '250060' 
+set company.use_flag = 0 
+where a.company_code_list like '%012330%' or a.company_code_list like '%005380%'
+
+```

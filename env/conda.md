@@ -49,3 +49,14 @@ conda create --name holic --clone holic_origin
 # zeppelin 환경 등록 
 ```
 
+
+
+
+# windows conda 구성
+- download https://docs.conda.io/en/latest/miniconda.html
+- 다운 받아 실행 
+
+```bash
+
+
+```

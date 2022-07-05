@@ -20,8 +20,37 @@ pip install bkzep
 
 ```
 
+
 [Handling categorical data - bokeh doc](https://docs.bokeh.org/en/latest/docs/user_guide/categorical.html)
 
+
+
+# standalonew HTML/JS output
+```python
+shwo(chart)
+
+```
+
+# bokeh server in zeppelin 
+```python
+
+p1 = figure(plot_width=250, plot_height=250)
+r1 = p1.circle([1,2,3], [4,5,6], size=20)
+
+t = show(p1, notebook_handle=True)
+
+
+# File ~/miniconda3/envs/aicel_python/lib/python3.8/site-packages/bkzep/io.py:41, in _show_zeppelin_doc_with_state(obj, state, notebook_handle)
+#      39 def _show_zeppelin_doc_with_state(obj, state, notebook_handle):
+#      40     if notebook_handle:
+# ---> 41         raise ValueError("Zeppelin doesn't support notebook_handle.")
+#      42     if _isAfterBokeh1210:
+#      43         (script, div, cell_doc) = notebook_content(obj)
+
+ValueError: Zeppelin doesn't support notebook_handle.
+
+
+```
 
 
 # bar chart

@@ -99,17 +99,22 @@ sudo /etc/init.d/docker start
 
 
 
-# image 삭제
+# image/container 삭제
 
 ```bash
 # 전체 이미지 삭제
 docker rmi $(docker images -a -q)
+
+# 전체 continer 삭제
+# 중지
+docker stop $(docker ps -a -q)
+# 삭제
+docker rm $(docker ps -a -q)
+
+
+aws ecr get-login-password --region ap-northeast-2|docker login --username AWS --password-stdin 445772965351.dkr.ecr.ap-northeast-2.amazonaws.com/
+
 ```
-
-
-
-
-
 
 
 

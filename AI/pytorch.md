@@ -27,3 +27,7 @@ ONNX(Open Neural Network Exchange)의 포맷으로 모델을 익스포트(export
 
 
 
+
+# torch 설치 
+1. https://pytorch.org/ <필요한 환경 선택 후 명령어 확인 >
+2. pip3 install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cpu

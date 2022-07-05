@@ -91,6 +91,12 @@ df2 = pd.DataFrame.from_dict(data, orient="index")
 print(df2)
 
 
+# to_json
+
+df.to_json('test.json', orient='table')
+
+
+
 ```
 # select 
 ### 1. column 선택
@@ -171,6 +177,8 @@ df['debt'] = val
 df['net_points'] = df['points'] - df['penalty']
 
 
+df.loc[len(df.index)] = [value1, value2, value3, ...]
+
 ```
 
 ```python
@@ -182,6 +190,12 @@ del df['high_points']
 ### 2. row 추가/삭제
 ```python
 df.loc['six',:] = [2013,'Jun',4.0,0.1,2.1]
+
+
+df.loc[len(df.index)] = [value1, value2, value3, ...]
+
+# existing dataframe add
+df = df.append(df2, ignore_index = True)
 
 
 ```

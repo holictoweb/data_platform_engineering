@@ -14,6 +14,12 @@ pip instal flask
 
 ```
 
+# 데몬 실행
+```bash
+
+
+
+```
 
 # basic flask
 - app.py 생성
