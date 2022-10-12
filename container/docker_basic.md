@@ -95,6 +95,10 @@ sudo service docker restart
 
 # 위에 service로 실행 하는것과 아래 방식의 차이 확인 필요 
 sudo /etc/init.d/docker start 
+
+# 권한 이슈가 발생 할 경우 아래 와 같은 처리 필요 
+# user 에 admin 권한이 없을 경우
+sudo chown $USER /var/run/docker.sock
 ```
 
 

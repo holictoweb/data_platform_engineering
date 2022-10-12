@@ -37,20 +37,7 @@ curl -s localhost:8083
 
 ```
 
-# kafak connector 설치 
-- 내용 추후 확인 필요 https://mongsil-jeong.tistory.com/35
-- 
-- https://packages.confluent.io/archieve/6.1/ 
-```bash
-# 현재 사용 가능한 connector plugin 조회
-curl http://localhost:8083/connector-plugins | python -m json.tool
 
-# mysql connector 설치
-
-
-wget kafka-connect-jdbc:10.5.0
-
-```
 
 
 

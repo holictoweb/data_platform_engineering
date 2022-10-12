@@ -2,7 +2,23 @@
 [pandas selecting indexing](!https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#indexing-and-selecting-data)
 
 
+# lambda 적용
 
+```python
+
+import pandas as pd
+
+data = [[10, 18, 11], [13, 15, 8], [9, 20, 3], [11, 30, 5], [13, 15, 8], [11, 25, 9]]
+columns = ['a', 'b', 'c']
+df = pd.DataFrame(data, columns=columns)
+
+display(df)
+
+df['d'] = df[['a', 'b']].apply(lambda x : x['a']+x['b'], axis=1)
+display(df)
+
+
+```
 # join 
 
 ## 1. merge 
@@ -84,8 +100,14 @@ Out[12]:
 df_result['hits'] = df_result['hits'].astype('int')
 print(df_result.dtypes)
 
+#  df_result.groupby(['private'])["hits"].idxmax()  
 display(df_result.loc[df_result.groupby(['private'])["hits"].idxmax()])
 
+```
+
+## gropuby aggregation
+```py
+df.groupby('Company Name')['Amount'].agg(['sum','count'])
 ```
 ## concatnate
 

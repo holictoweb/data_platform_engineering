@@ -1,5 +1,5 @@
 
-
+MSK 크라이언트 설치 
 
 
 ## broker & zookeeper
@@ -46,6 +46,9 @@ bin/kafka-topics.sh --describe --bootstrap-server b-2.aicelkafkadev.b3c0a9.c2.ka
 
 ```
 
+
+
+
 ## producer
 ```bash
 # 토픽 메세지  생성
@@ -57,7 +60,7 @@ bin/kafka-topics.sh --describe --bootstrap-server b-2.aicelkafkadev.b3c0a9.c2.ka
 bin/kafka-console-producer.sh --broker-list b-2.aicelkafkadev.b3c0a9.c2.kafka.ap-northeast-2.amazonaws.com:9092 --producer.config config/client.properties --topic MSKStreams
 
 
-bin/kafka-console-producer.sh --broker-list b-2.aicelkafkadev.b3c0a9.c2.kafka.ap-northeast-2.amazonaws.com:9092 --producer.config config/client.properties --topic test.faust
+bin/kafka-console-producer.sh --broker-list b-2.aicelkafkadev.b3c0a9.c2.kafka.ap-northeast-2.amazonaws.com:9092 --producer.config config/client.properties --topic news.thebellpage
 ```
 
 # consumer 

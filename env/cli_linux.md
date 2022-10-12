@@ -59,7 +59,10 @@ sudo growpart /dev/nvme0n1 1
 
 ```
 
-
+### 특정 폴더의 전체 용량 확인
+```bash
+du -sh pipeline_crawling_nk/
+```
 
 # cp to ec2
 

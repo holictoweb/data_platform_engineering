@@ -19,3 +19,17 @@ aws logs create-log-stream --log-group-name /ecs/aicel_kg_builder --log-stream-n
 aws ecr get-login-password --region region | docker login --username AWS --password-stdin aws_account_id.dkr.ecr.region.amazonaws.com
 
 ```
+
+
+
+# s3
+
+```bash
+# bucket create
+aws s3 mb s3://bucket-name
+# bucket delete
+aws s3 rb s3://bucket-name
+
+# s3 path to local path
+aws s3 cp s3://aicel-nlp/oss-packages/dev/confluentinc-kafka-connect-jdbc-10.5.0.zip .
+```

@@ -59,6 +59,18 @@ key = 'free-trial/test.csv'
 s3_client.put_object(Body='test', Bucket=bucket, Key=key)
 ```
 
+# pandas to s3 
+```python
+# 사전설치
+boto3
+fsspec
+s3fs
+
+df_post.to_csv('s3://data-delivery-news/feeds/sample/post_20220719.040134.csv', index=False)
+
+
+```
+
 # s3 데이터 로드 
 - s3 의 파일을 직접 읽는 방식 
 ```py

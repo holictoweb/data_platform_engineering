@@ -2,6 +2,23 @@
 
 # search
 
+## 기본 쿼리
+```py
+# 전체 조회 
+res = oss_client.search(index="naver_news")
+pprint(res)
+
+```
+### sort
+```py
+res = oss_client.search(index='naver_news', sort='published_at:desc')
+pprint(res)
+```
+### select columns
+```py
+
+```
+
 ```json
 # 가중치 부여 쿼리 
 {

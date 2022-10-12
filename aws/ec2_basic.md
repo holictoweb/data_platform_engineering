@@ -32,3 +32,25 @@ sudo growpart /dev/nvme0n1 1
 ```
 ```
 
+
+# boto3
+
+```py
+# Boto 3
+import boto3
+ec2 = boto3.resource('ec2')
+
+# check running instance
+instances = ec2.instances.filter(Filters=[{'Name': 'instance-state-name', 'Values': ['running']}])
+for instance in instances:
+    print(instance.id, instance.instance_type)
+
+
+```
+
+## ebs volume list
+
+```py
+
+
+```

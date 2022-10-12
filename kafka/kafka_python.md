@@ -7,8 +7,6 @@ https://github.com/faust-streaming/faust
 
 
 # streams 
-
-
 ```py
 import faust 
 
@@ -30,6 +28,40 @@ app = faust.App('hit_counter',broker="kafka://localhost:29092")
 - kafka-python
 ```bash
 pip install kafka-python
+```
+
+## boto3 get broker list
+```py
+import boto3
+from pprint import pprint
+import pandas as pd
+
+cluser_name = 'aicel-kafka-prod'
+
+
+msk_client = boto3.client('kafka', region_name='ap-northeast-2')
+response = msk_client.list_clusters(
+    # ClusterNameFilter='string',
+    # MaxResults=123,
+    # NextToken='string'
+)
+df = pd.DataFrame(response['ClusterInfoList'])
+# pprint(response)
+cluster_arn = df.loc[df.ClusterName == cluser_name, 'ClusterArn'].item()
+
+print(f"*** Target cluser {cluser_name} Arn: {cluster_arn}")
+
+response = msk_client.get_bootstrap_brokers(ClusterArn=cluster_arn)
+bootstrap_list = response['BootstrapBrokerString'].split(',')
+
+print(f"*** Target bootstrap : {bootstrap_list}")
+
+```
+###  topic list 
+```py
+import kafka
+consumer = kafka.KafkaConsumer( bootstrap_servers=['b-2.aicelkafkadev.b3c0a9.c2.kafka.ap-northeast-2.amazonaws.com:9092'])
+consumer.topics()
 ```
 
 - create topic
@@ -61,12 +93,7 @@ topic_names = 'greetings'
 admin_client.delete_topics(topics=topic_names)
 ```
 
-- topic list 
-```py
-import kafka
-consumer = kafka.KafkaConsumer( bootstrap_servers=['b-2.aicelkafkadev.b3c0a9.c2.kafka.ap-northeast-2.amazonaws.com:9092'])
-consumer.topics()
-```
+
 
 - producer
 ```py
@@ -168,8 +195,6 @@ async def greet(greetings):
     async for greeting in greetings:
         print(greeting)
 ```
-
-
 
 
 

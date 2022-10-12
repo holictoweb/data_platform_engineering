@@ -24,6 +24,9 @@ scrapy startproject aicel_scrapy
 # 뒤에 path 는 포함되지 않음. 
 scrapy genspider thebell https://www.thebell.co.kr/free/content/Search.asp?keyword=삼성전자
 
+scrapy genspider droom_naver_meta https://finance.naver.com/item/board.naver?code=005930
+
+
 # 3. robot.txt 
 settings.py 에서 ROBOTSTXT_OBEY 설정을 False로 변경
 scrapy crawl thebell
@@ -48,7 +51,7 @@ class ThebellSpider(scrapy.Spider):
     allowed_domains = ['www.thebell.co.kr']
     start_urls = ['https://www.thebell.co.kr/free/content/Search.asp?keyword=삼성전자']
 
-    def parse(self, response):
+    def parse(self, response)
         # content_list = response.xpath('//*[@id="contents"]/div[3]/div/div[1]/div[1]/div[2]/ul/li')
         content_list = response.xpath("//div[contains(@class, 'listBox')]/ul/li")
         # pprint(content_list)
@@ -97,7 +100,7 @@ class TheBellListPipeline:
         if not isinstance(item, TheBellListItem):
             return item
         print(20*'-' + 'TheBellListPipeline ' + 20*'-')
-        print(item['url'])
+        print(item['url'])2
 
         return item
 

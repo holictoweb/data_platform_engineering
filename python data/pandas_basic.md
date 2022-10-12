@@ -1,6 +1,10 @@
 [pandas document](!https://pandas.pydata.org/pandas-docs/stable/user_guide/reshaping.html)
 
-# pandas 기초
+# pandas data 추가
+```py
+
+
+```
 
 
 # data 정보 조회
@@ -190,8 +194,6 @@ del df['high_points']
 ### 2. row 추가/삭제
 ```python
 df.loc['six',:] = [2013,'Jun',4.0,0.1,2.1]
-
-
 df.loc[len(df.index)] = [value1, value2, value3, ...]
 
 # existing dataframe add
