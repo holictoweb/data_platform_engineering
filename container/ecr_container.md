@@ -28,7 +28,7 @@ aws ecr get-login-password --region us-west-2|docker login --username AWS --pass
 
 docker push ${fullname}
 
-aws ecr get-login-password --region ap-northeast-2|docker login --username AWS --password-stdin 2323.dkr.ecr.ap-northeast-2.amazonaws.com/dev-aicel
+aws ecr get-login-password --region ap-northeast-2|docker login --username AWS --password-stdin 445772965351.dkr.ecr.ap-northeast-2.amazonaws.com/aicel-schema-registry
 
 aws ecr get-login-password --region ap-northeast-2|docker login --username AWS --password-stdin 23232.dkr.ecr.ap-northeast-2.amazonaws.com/aicel-news-ticker-mapper-lib
 
@@ -47,8 +47,6 @@ aws ecr get-login-password --region ap-northeast-2| docker login --username AWS 
 
 ```
 
-
-
 # build and push
 
 ```bash
@@ -61,7 +59,6 @@ aws ecr get-login-password --region ap-northeast-2|docker login --username AWS -
 # build with tag
 docker build -t $tag .
 
-
 docker tag $tag ${full_name}:${tag}
 docker push ${full_name}:${tag}
 
@@ -69,4 +66,10 @@ docker push ${full_name}:${tag}
 ```
 
 
+```bash
+docker build -t dev-schema-registry
+docker tag dev-schema-registry 445772965351.dkr.ecr.ap-northeast-2.amazonaws.com/aicel-schema-registry:dev-schema-registry
+
+docker push 445772965351.dkr.ecr.ap-northeast-2.amazonaws.com/aicel-schema-registry:dev-schema-registry
+```
 

@@ -93,10 +93,6 @@ aws glue get-schema-version --schema-id "RegistryName=news.naver,SchemaName=gn_n
 
 ```
 
-
-
-
-
 # avro 스키마 예시 
 
 ``` json
@@ -146,4 +142,34 @@ value.converter.schemaAutoRegistrationEnabled=true
 key.converter.avroRecordType=GENERIC_RECORD
 value.converter.avroRecordType=GENERIC_RECORD
 
+```
+
+# boto3 glue schema registry
+
+[boto3 glue](https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/glue.html)
+
+- schema registry list
+- 
+```py
+
+import boto3
+from pprint import pprint
+
+glue_client = boto3.client('glue', region_name = 'ap-northeast-2')
+
+response = glue_client.list_registries(
+    MaxResults=23
+)
+# pprint(response)
+df = pd.DataFrame(response['Registries'])
+display(df)
+
+```
+
+- schema list
+  
+```py
+response = glue_client.list_schemas()
+df_schema = pd.DataFrame(response['Schemas'])
+display(df_schema)
 ```

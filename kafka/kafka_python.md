@@ -31,6 +31,7 @@ pip install kafka-python
 ```
 
 ## boto3 get broker list
+
 ```py
 import boto3
 from pprint import pprint
@@ -57,14 +58,46 @@ bootstrap_list = response['BootstrapBrokerString'].split(',')
 print(f"*** Target bootstrap : {bootstrap_list}")
 
 ```
-###  topic list 
+
+##  topic list 
+
 ```py
+import boto3
+from pprint import pprint
+import pandas as pd
 import kafka
-consumer = kafka.KafkaConsumer( bootstrap_servers=['b-2.aicelkafkadev.b3c0a9.c2.kafka.ap-northeast-2.amazonaws.com:9092'])
-consumer.topics()
+from kafka.admin import KafkaAdminClient, NewTopic
+import pandas as pd
+
+cluser_name = 'aicel-kafka-prod'
+
+
+msk_client = boto3.client('kafka', region_name='ap-northeast-2')
+response = msk_client.list_clusters(
+    # ClusterNameFilter='string',
+    # MaxResults=123,
+    # NextToken='string'
+)
+df = pd.DataFrame(response['ClusterInfoList'])
+# pprint(response)
+cluster_arn = df.loc[df.ClusterName == cluser_name, 'ClusterArn'].item()
+
+print(f"*** Target cluser {cluser_name} Arn: {cluster_arn}")
+
+
+response = msk_client.get_bootstrap_brokers(ClusterArn=cluster_arn)
+bootstrap_list = response['BootstrapBrokerString'].split(',')
+
+print(f"*** Target bootstrap : {bootstrap_list}")
+
+consumer = kafka.KafkaConsumer( bootstrap_servers=bootstrap_list)
+topic_list = list(consumer.topics())
+# print(type(topic_list))
+pprint(topic_list)
 ```
 
-- create topic
+## create topic
+
 ```py
 
 from kafka.admin import KafkaAdminClient, NewTopic
@@ -81,7 +114,9 @@ admin_client.create_topics(new_topics=topic_list, validate_only=False)
 
 
 ```  
-- delete topic
+
+## delete topic
+
 ```py
 from kafka.admin import KafkaAdminClient, NewTopic
 
@@ -93,9 +128,10 @@ topic_names = 'greetings'
 admin_client.delete_topics(topics=topic_names)
 ```
 
+# topic 생성 소비
 
+## producer
 
-- producer
 ```py
 
 # message generator
@@ -145,7 +181,8 @@ producer.close()
 
 ```
 
-- consumer 
+## consumer 
+
 - 연결 후 들어 오는 데이터만 바로 보고 있는 부분은 어떻게 해결 해야 할지 offset 관리에 대한 부분 확인 필요 
 ```py
 import kafka

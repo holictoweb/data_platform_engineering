@@ -3,14 +3,13 @@
 # pandas data 추가
 ```py
 
-
 ```
-
 
 # data 정보 조회
 
 
 # display setting
+
 ```python
 pd.set_option('display.max_columns', None)
 pd.set_option('max_colwidth', None)

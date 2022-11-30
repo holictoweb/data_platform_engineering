@@ -18,6 +18,7 @@ jupyter lab path
 python -m ipykernel install --user --name={kernelname conda env name}
 python -m ipykernel install --user --name bitlab --display-name bitlab
 python -m ipykernel install --user --name holic --display-name holic
+python -m ipykernel install --user --name dev_kafka --display-name dev_kafka
 
 # drop 커널
 jupyter kernelspec uninstall {kernelname}
@@ -45,4 +46,18 @@ nvm install v16.10.0
 
 # 
 jupyter labextension install @jupyter-widgets/jupyterlab-manager
+```
+
+
+# config 설정
+
+```bash
+# config 파일 생성 
+jupyter notebook --generate-config
+
+# .jupyter/jupyter_notebook_config.py 수정 
+ c.NotebookApp.token = ''
+ c.NotebookApp.password = u''
+ c.NotebookApp.open_browser = True
+ c.NotebookApp.ip = 'localhost'
 ```

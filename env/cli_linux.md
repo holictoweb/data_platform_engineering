@@ -62,6 +62,9 @@ sudo growpart /dev/nvme0n1 1
 ### 특정 폴더의 전체 용량 확인
 ```bash
 du -sh pipeline_crawling_nk/
+
+# 하위 폴더의 용량 확인
+du -h --max-depth=1 .
 ```
 
 # cp to ec2
@@ -75,8 +78,6 @@ scp -i myAmazonKey.pem phpMyAdmin-3.4.5-all-languages.tar.gz ec2-user@mec2-50-17
 
 
 # 심볼릭 링크 
-
-
 
 ```bash
 # 링크 생성

@@ -2,7 +2,6 @@
 
 # Writing a Flink Python Table API Program
 
-
 ```python
 from pyflink.table import EnvironmentSettings, TableEnvironment
 from pyflink.table.expressions import col
@@ -49,13 +48,9 @@ result_table.execute_insert("print").wait()
 # table_env.execute_sql("INSERT INTO print SELECT * FROM datagen").wait()
 ```
 
-
-
 ## 참고할 사이트
-- https://programmer.ink/think/how-to-develop-pyflink-api-jobs-from-0-to-1.html
 
-
-
+- [](https://programmer.ink/think/how-to-develop-pyflink-api-jobs-from-0-to-1.html)
 
 ```python
 # 1. create table environment object
@@ -64,5 +59,13 @@ t_env = StreamTableEnvironment.create(environment_settings=env_settings)
 
 # 2. configure the execution paramters of the job
 t_env.get_config().get_configuration().set_string('parallelism.default', '4')
-
 ```
+
+
+
+news_prod_con = pymysql.connect(host='fngo-ml-rds-cluster-8-cluster.cluster-c6btgg8fszdb.ap-northeast-2.rds.amazonaws.com',
+                user='fngoMLAdmin',
+                password='fngo_2020-for!Knowledge',
+                database='news',
+                cursorclass=pymysql.cursors.DictCursor,
+                client_flag=CLIENT.MULTI_STATEMENTS)

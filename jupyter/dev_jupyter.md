@@ -73,3 +73,23 @@ conda install -c conda-forge nodejs
 - 필요한 extension 설치 
 
 
+# systemctl 등록
+
+
+```bash
+[Unit]
+Description=Jupyter-Notebook Daemon
+
+[Service]
+Type=simple
+ExecStart=/bin/bash -c "/home/username/.local/share/virtualenvs/notebook/bin/jupyter-notebook --no-browser --notebook-dir=/home/username"
+WorkingDirectory=/home/username
+User=username
+Group=username
+PIDFile=/run/jupyter-notebook.pid
+Restart=on-failure
+RestartSec=60s
+
+[Install]
+WantedBy=multi-user.target
+```

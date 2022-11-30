@@ -13,19 +13,28 @@ Minikube 는 Kubernetes 기능중 아래 것들을 제공해 준다.
 
 # minikube 설치
 
-
 - 기본적으로 가상화 기능 활성화 여부 확인
 
 1. docker 설치 확인 
 
-
 2. minikube 설치 
-
+- 2022-11-16
 ```bash
-sudo curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 \
-  && chmod +x minikube
+# lastest version
+sudo curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb
+sudo dpkg -i minikube_latest_amd64.deb
 
+# 실행 driver 선택 확인 
+minikube start --driver=docker
+minikube start
+
+# 상태 확인 
+minikube status
+
+# ssh 접속
+minikube ssh
 ```
+
 
 ```bash
 sudo mkdir -p /usr/local/bin/
@@ -55,12 +64,5 @@ minikube start --driver=docker --extra-config=kubelet.cgroup-driver=systemd
 ```
 
 
-# kubectl 설치 
-
-```sh
-curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-
-sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
-```
 
 

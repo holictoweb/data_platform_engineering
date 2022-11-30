@@ -1,0 +1,48 @@
+Deployment:
+apiVersion: app/v1
+kind: Deployment
+metadata:
+  namespace: schema-registry-test
+  name: aicel-dev-schema-registry
+  labels:
+    app: aicel-dev-schema-registry
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: aicel-dev-schema-registry
+  template:
+    metadata:
+      labels:
+        app: aicel-dev-schema-registry
+    spec:
+      containers:
+      - name: aicel-dev-schema-registry
+        image: 445772965351.dkr.ecr.ap-northeast-2.amazonaws.com/aicel-schema-registry:dev-schema-registry
+        ports:
+        - containerPort: 8082
+        imagePullPolicy: Always
+        env:
+        - name: SCHEMA_REGISTRY_HOST_NAME
+          value: aicel-dev-schema-registry
+        - name: SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS
+          value: PLAINTEXT://b-3.aicelkafkadev.ht33o6.c2.kafka.ap-northeast-2.amazonaws.com:9092
+        - name: SCHEMA_REGISTRY_LISTENERS
+          value: http://0.0.0.0:8082
+
+Service:
+apiVersion: v1
+kind: Service
+metadata:
+  annotations: 
+    service.beta.kubernetes.io/aws-load-balancer-internal: 0.0.0.0/0
+  name: aicel-dev-schema-registry
+  namespace: schema-registry-test
+  labels:
+    app: aicel-dev-schema-registry
+spec:
+  selector:
+    app: aicel-dev-schema-registry
+  ports:
+  - port: 9081
+  type: LoadBalancer

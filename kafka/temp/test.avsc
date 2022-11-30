@@ -1,0 +1,126 @@
+{
+	"type": "record",
+	"name": "ForeignExchangeRateDomain",
+	"namespace": "com.aiceltech.mi.elt.quandl.domain",
+	"fields": [
+		{
+			"name": "mi_db_code",
+			"type": "int"
+		},
+		{
+			"name": "event_time",
+			"type": {
+				"type": "long",
+				"logicalType": "local-timestamp-micros"
+			}
+		},
+		{
+			"name": "id",
+			"type": "int"
+		},
+		{
+			"name": "dataset_code",
+			"type": "string"
+		},
+		{
+			"name": "database_code",
+			"type": "string"
+		},
+		{
+			"name": "name",
+			"type": "string"
+		},
+		{
+			"name": "description",
+			"type": "string"
+		},
+		{
+			"name": "refreshed_at",
+			"type": "string"
+		},
+		{
+			"name": "newest_available_date",
+			"type": "string"
+		},
+		{
+			"name": "oldest_available_date",
+			"type": "string"
+		},
+		{
+			"name": "column_names",
+			"type": {
+				"type": "array",
+				"items": "string"
+			}
+		},
+		{
+			"name": "frequency",
+			"type": "string"
+		},
+		{
+			"name": "type",
+			"type": "string"
+		},
+		{
+			"name": "premium",
+			"type": "boolean"
+		},
+		{
+			"name": "limit",
+			"type": [
+				"string",
+				"null"
+			]
+		},
+		{
+			"name": "transform",
+			"type": [
+				"string",
+				"null"
+			]
+		},
+		{
+			"name": "column_index",
+			"type": [
+				"string",
+				"null"
+			]
+		},
+		{
+			"name": "start_date",
+			"type": "string"
+		},
+		{
+			"name": "end_date",
+			"type": "string"
+		},
+		{
+			"name": "collapse",
+			"type": [
+				"string",
+				"null"
+			]
+		},
+		{
+			"name": "order",
+			"type": [
+				"string",
+				"null"
+			]
+		},
+		{
+			"name": "database_id",
+			"type": "int"
+		},
+		{
+			"name": "data",
+			"type": {
+				"type": "array",
+				"items": {
+					"type": "array",
+					"items": "string"
+				}
+			}
+		}
+	]
+}
