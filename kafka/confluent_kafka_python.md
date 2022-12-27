@@ -3,8 +3,14 @@
 # confluent_kafka python api
 [confluent_kafka API 공식 문서](https://docs.confluent.io/platform/current/clients/confluent-kafka-python/html/index.html#pythonclient-consumer)
 
+[confluent python example](https://github.com/confluentinc/confluent-kafka-python/tree/master/examples)
 
-# kafka admin
+
+# kafka connect
+[working with sasl_ssl ](https://github.com/edenhill/librdkafka/issues/2526)
+```py
+
+```
 
 
 ## create topic
@@ -81,4 +87,26 @@ while True :
 # callbacks to be triggered.
 p.flush()
 
+```
+
+
+# schema registry
+
+```py
+from confluent_kafka.schema_registry import SchemaRegistryClient
+from pprint import pprint 
+from json import dumps
+
+SCHEMA_HOST = "172.31.115.111:31001"
+SUBJECT_NAME = "foreign-exchange-rate-value"
+
+schema_registry_conf = {'url': "http://{}".format(SCHEMA_HOST)}
+schema_registry_client = SchemaRegistryClient(schema_registry_conf)
+
+schema = schema_registry_client.get_latest_version(subject_name=SUBJECT_NAME)
+
+schema = schema_registry_client.get_schema(schema.schema_id)
+schema_str = schema.schema_str
+
+pprint(schema_str)
 ```

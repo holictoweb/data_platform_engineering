@@ -1,9 +1,54 @@
 # confluent helm
 ```bash
+# add repo https://github.com/confluentinc/cp-helm-charts#installation
 helm repo add confluentinc https://confluentinc.github.io/cp-helm-charts/
 "confluentinc" has been added to your repositories
+# update 
+helm repo update 
 
+# repo version check
+helm search repo confluentinc/cp-helm-charts
 
+# helm chart download
+helm pull confluentinc/cp-helm-charts --version 0.6.1 --insecure-skip-tls-verify
+
+# install
+helm install confluentinc/cp-helm-charts --name my-confluent --version 0.6.0
+
+# install (wieh values file )
+helm install -f values.prd.yaml aicel-kafka-ui . -n kafka-group
+
+# tar 파일 압축 해제 
+
+# schema registry 용 iamserviceaccount 생성 
+eksctl create iamserviceaccount --name sa-schema-registry \
+--namespace kafka-group \
+--cluster aicel-elt-pipeline-dev \
+--attach-policy-arn arn:aws:iam::445772965351:policy/AmazonMSK-aicel-kafka-dev-rw \
+--approve \
+--override-existing-serviceaccounts \
+--role-name eksctl-serviceaccount-schema-registry
+
+# ------------------  install cp-schema-registry  
+# dir 는 cp-helm-chart 에서 chart 밑의 schema-registry에서 직접 실행 
+helm install aicel-schema-registry . --namespace kafka-group
+helm install -f values.prd.yaml aicel-schema-registry . -n kafka-group
+
+# 환경 변수 확인 
+kubectl -n kafka-group exec pod/aicel-cp-schema-registry-5c45b7d4f4-jwt9g printenv 
+# shell 연결
+kubectl exec --stdin --tty pod/kafka-ui-init-864dbcc7d8-w6wxg -- bin/bash
+```
+
+# 변경 사항 없이 cp-helm-chart 를 통해 설치 
+```bash
+# values.yaml 파일에 직접 false로 변경 하여 적용  
+helm install aicel-cp-schema-registry . \
+--set cp-schema-registry.enabled=true
+--set cp-kafka-rest.enabled=false \
+--set cp-kafka-connect.enabled=false \
+--set cp-kafka.enabled=false \
+--set cp-zookeeper.enabled=false
 ```
 
 
@@ -126,3 +171,24 @@ USER appuser
 
 
 software.amazon.msk.auth.iam.IAMLoginModule required awsProfileName="arn:aws:iam::445772965351:role/aicel-developer-kafka-service-local";
+
+
+# schema registry 조회
+```py
+from confluent_kafka.schema_registry import SchemaRegistryClient
+from pprint import pprint 
+from json import dumps
+
+SCHEMA_HOST = "172.31.115.111:31001"
+SUBJECT_NAME = "foreign-exchange-rate-value"
+
+schema_registry_conf = {'url': "http://{}".format(SCHEMA_HOST)}
+schema_registry_client = SchemaRegistryClient(schema_registry_conf)
+
+schema = schema_registry_client.get_latest_version(subject_name=SUBJECT_NAME)
+
+schema = schema_registry_client.get_schema(schema.schema_id)
+schema_str = schema.schema_str
+
+pprint(schema_str)
+```

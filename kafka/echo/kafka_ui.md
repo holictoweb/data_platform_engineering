@@ -4,6 +4,16 @@
 ```bash
 helm repo add kafka-ui https://provectus.github.io/kafka-ui
 
+# check chart version
+helm search repo kafka-ui
+
+# helm chart download
+helm pull kafka-ui/kafka-ui --version 0.4.5 --insecure-skip-tls-verify
+
+helm pull kafka-ui/kafka-ui --version 0.4.5 --insecure-skip-tls-verify
+
+helm pull prefect/prefect-orion --version 2.7.1 --insecure-skip-tls-verify
+
 helm install kafka-ui kafka-ui/kafka-ui \
 --version 0.4.5 \
 --namespace kafka-group \
@@ -18,18 +28,71 @@ helm install kafka-ui kafka-ui/kafka-ui \
 --set envs.config.KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=b-3.aicelkafkadev.ht33o6.c2.kafka.ap-northeast-2.amazonaws.com:9092 
 
 
+
+# 1. 계정 생성의 경우 먼저 생성 후 iamservice account 설정 필요 ( heml 생성 시 eksctl로 연결 생성된 계정에 대한 override가 안되는 것으로 보임. )
+eksctl create iamserviceaccount --name sa-kafka-ui \
+--namespace kafka-group \
+--cluster aicel-elt-pipeline-prd \
+--attach-policy-arn arn:aws:iam::445772965351:policy/AmazonMSK-aicel-kafka-prd-rw \
+--approve \
+--override-existing-serviceaccounts \
+--role-name eksctl-serviceaccount-kafka-ui-prd
+
+# 생성된 account 확인
+eksctl get iamserviceaccount --cluster aicel-elt-pipeline-dev --namespace kafka-group
+
+#### install plaintext
+helm install kafka-ui-plain . \
+	--namespace kafka-group \
+    --set envs.config.KAFKA_CLUSTERS_0_NAME=aicel-kakfa-dev-plain \
+    --set envs.config.KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=b-3.aicelkafkadev.ht33o6.c2.kafka.ap-northeast-2.amazonaws.com:9092
+
+helm upgrade kafka-ui-plain . \
+    --set envs.config.KAFKA_CLUSTERS_0_NAME=aicel-kakfa-dev-plain \
+    --set envs.config.KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=b-3.aicelkafkadev.ht33o6.c2.kafka.ap-northeast-2.amazonaws.com:9092
 
 #### install iam_auth
-helm install kafka-ui-init . \
+helm install  kafka-ui-init . \
 --namespace kafka-group \
 --set envs.config.KAFKA_CLUSTERS_0_NAME=aicel-kafka-dev \
---set envs.config.KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=b-3.aicelkafkadev.ht33o6.c2.kafka.ap-northeast-2.amazonaws.com:9098 \
+--set envs.config.KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=b-1.aicelkafkadev.ht33o6.c2.kafka.ap-northeast-2.amazonaws.com:9098 \
 --set envs.config.KAFKA_CLUSTERS_0_PROPERTIES_SECURITY_PROTOCOL=SASL_SSL \
+--set envs.config.KAFKA_CLUSTERS_0_PROPERTIES_SASL_MECHANISM=AWS_MSK_IAM \
 --set envs.config.KAFKA_CLUSTERS_0_PROPERTIES_SASL_CLIENT_CALLBACK_HANDLER_CLASS=software.amazon.msk.auth.iam.IAMClientCallbackHandler \
---set envs.config.KAFKA_CLUSTERS_0_PROPERTIES_SASL_JAAS_CONFIG=software.amazon.msk.auth.iam.IAMLoginModule \
+--set envs.config.KAFKA_CLUSTERS_0_PROPERTIES_SASL_JAAS_CONFIG=software.amazon.msk.auth.iam.IAMLoginModule required; awsProfileName=""; \
 --dry-run
 
-# 계정 생성의 경우 먼저 생성 후 iamservice account 설정 필요 ( heml 생성 시 eksctl로 연결 생성된 계정에 대한 override가 안되는 것으로 보임. )
+# values.yaml
+envs:
+  secret: {}
+  config: {
+    KAFKA_CLUSTERS_0_NAME: aicel-kafka-dev,
+    KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: b-3.aicelkafkadev.ht33o6.c2.kafka.ap-northeast-2.amazonaws.com:9098,
+    KAFKA_CLUSTERS_0_PROPERTIES_SECURITY_PROTOCOL: SASL_SSL,
+    KAFKA_CLUSTERS_0_PROPERTIES_SASL_MECHANISM: AWS_MSK_IAM, 
+    KAFKA_CLUSTERS_0_PROPERTIES_SASL_CLIENT_CALLBACK_HANDLER_CLASS: software.amazon.msk.auth.iam.IAMClientCallbackHandler,
+    KAFKA_CLUSTERS_0_PROPERTIES_SASL_JAAS_CONFIG: software.amazon.msk.auth.iam.IAMLoginModule required;,
+  }
+
+# ------------------  download 한 chart 을 통해 deploy
+helm install aicel-kafka-ui . --namespace kafka-group 
+
+helm install aicel-prefect . --namespace workflow 
+
+## test config file 
+helm upgrade kafka-ui-init . \
+--namespace kafka-group \
+--set envs.config.KAFKA_CLUSTERS_0_NAME=aicel-kafka-dev \
+--set envs.config.KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=b-1.aicelkafkadev.ht33o6.c2.kafka.ap-northeast-2.amazonaws.com:9098 \
+
+# pod의 환경 변수 확인 
+- https://coldcode.tistory.com/2
+kubectl -n kafka-group exec pod/kafka-ui-init-5849b668cf-frb8h printenv | grep AWS
+
+# pod 에 shell 접근 
+kubectl exec --stdin --tty pod/kafka-ui-init-5849b668cf-frb8h -- bin/bash
+
+
 
 
 ```

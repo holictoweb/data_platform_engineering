@@ -1,6 +1,18 @@
-# helm check 
+## Install helm 
+[install helm](https://helm.sh/ko/docs/intro/install/)
+```bash
+# https://github.com/helm/helm/releases
+# download and install 의 url 확인 linux amd64
+wget https://get.helm.sh/helm-v3.10.3-linux-amd64.tar.gz
 
-## helml install 
+# 압축 해제 하면 linux-amd64 형태로 파일 생성
+tar -zxvf helm-v3.10.3-linux-amd64.tar.gz
+
+# bin 폴더로 이동 
+mv linux-amd64/helm /usr/local/bin/helm
+```
+
+## Helms install 
 [helm install option](https://helm.sh/docs/helm/helm_install/)
 
 -n, --namespace string                namespace scope for this request
@@ -11,9 +23,15 @@
 ## helml pull 
 
 ```bash
+# 특정 repo 버젼 정보 조회 
+helm search repo stable
+
+
 # download helm chart
 helm pull kafka-ui/kafka-ui --insecure-skip-tls-verify
 
+# cp_sr
+helm pull confluentinc/cp-helm-charts --version 0.6.1 --insecure-skip-tls-verify
 
 
 # 문법 확인
@@ -32,9 +50,6 @@ helm install kafka-ui-init . \
 --set envs.config.KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=b-3.aicelkafkadev.ht33o6.c2.kafka.ap-northeast-2.amazonaws.com:9092 \
 --dry-run
 
-
-
-
 # upgrade
 
 helm upgrade kafka-ui-init . \
@@ -44,20 +59,6 @@ helm upgrade kafka-ui-init . \
 
 # note 확인 
 echo http://$NODE_IP:$NODE_PORT
-```
-
-ip-172-31-115-111.ap-northeast-2.compute.internal:31001
-ip-172-31-79-233.ap-northeast-2.compute.internal:31001
-
-
-
-## install 
-
-```bash
-
-Error: INSTALLATION FAILED: Service "kafka-ui-init" is invalid: spec.ports[0].nodePort: Invalid value: 8081: provided port is not in the valid range. The range of valid ports is 30000-32767
-
-
 ```
 
 ## chart structure
@@ -87,19 +88,10 @@ helm create mychart
 ```
 ```
 
-## kafka-ui helm 예제
-
-```bash
-helm repo add kafka-ui https://provectus.github.io/kafka-ui
-helm install kafka-ui kafka-ui/kafka-ui \
-    --set envs.config.KAFKA_CLUSTERS_0_NAME=local \
-    --set envs.config.KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka:9092
-
-
-```
 
 
 - - -
+
 # helm basic 
 
 ## 1. helm install repo check
@@ -122,7 +114,7 @@ helm repo update
 
 # helm install  list
 helm repo list 
-# 특정 repo 정보 조회
+# 특정 repo 버젼 정보 조회 
 helm search repo stable
 
 

@@ -40,21 +40,21 @@ eksctl create iamserviceaccount --name sa-aicel-schema-registry-role-connect \
 --override-existing-serviceaccounts
 
 # role
-eksctl create iamserviceaccount --name sa-kafka-ui \
+eksctl create iamserviceaccount --name sa-schema-registry \
 --namespace kafka-group \
 --cluster aicel-elt-pipeline-dev \
---attach-role-arn arn:aws:iam::445772965351:role/aicel-workflow-role \
+--attach-role-arn arn:aws:iam::445772965351:role/eks-serviceaccount-kafka \
 --approve \
 --override-existing-serviceaccounts
 
-# policy 
-eksctl create iamserviceaccount --name sa-aicel-schema-registry \
---namespace schema-registry-test \
---cluster dev-cluster-v1 \
+# policy 를 통해 생성한 role 을 기반으로 확인 필요 
+eksctl create iamserviceaccount --name sa-kafka-ui \
+--namespace kafka-group \
+--cluster aicel-elt-pipeline-dev \
 --attach-policy-arn arn:aws:iam::445772965351:policy/AmazonMSK-aicel-kafka-dev-rw \
 --approve \
 --override-existing-serviceaccounts \
---role-name
+--role-name eksctl-serviceaccount-kafka-ui
 
 
 

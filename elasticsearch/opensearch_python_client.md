@@ -63,9 +63,13 @@ oss_client = OpenSearch(
 
 
 
-# index 
+# index  관련
 
 ```python
+# check indesx exists
+if oss_client.indices.exists(index="naver_news"):
+    print('exists')
+
 # index 전체 리스트
 oss_client.indices.get_alias("*")
 
@@ -74,6 +78,7 @@ oss_client.indices.create(index = 'example_index', body = request_body)
 
 # index 상세 조회 
 oss_client.indices.get('naver_news')
+
 
 # index close open 
 oss_client.indices.close()
