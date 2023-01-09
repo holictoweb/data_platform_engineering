@@ -75,8 +75,6 @@ bus_stop_df.to_sql(name='<table_name>', con=engine,
 
 # 공시 정보 조회 ( 공시 문서 번호 확인 )
 
-
-
 ```python
 bgn_date = '20190101'
 end_date = '20201231'
@@ -144,8 +142,6 @@ display(df_result.head(100))
 df_result.to_csv('../data/target_report.csv')
 logger.info("target_report finished ")
 ```
-
-
 
 # 공시 서류 원본 파일 다운로드
 

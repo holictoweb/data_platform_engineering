@@ -31,7 +31,7 @@ eksctl create iamserviceaccount --name sa-schema-registry \
 
 # ------------------  install cp-schema-registry  
 # dir 는 cp-helm-chart 에서 chart 밑의 schema-registry에서 직접 실행 
-helm install aicel-schema-registry . --namespace kafka-group
+helm install aicel-cp-schema-registry . --namespace kafka-group
 helm install -f values.prd.yaml aicel-schema-registry . -n kafka-group
 
 # 환경 변수 확인 

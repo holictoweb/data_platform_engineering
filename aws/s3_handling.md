@@ -21,7 +21,6 @@ local_file = '/home/ubuntu/data/wiki/alias_page.json'
 with open(local_file, 'wb') as f:
     s3.download_fileobj(pbucket, pkey, f)
 
-
 # access key & secret key
 # object list 가져 오기
 import boto3

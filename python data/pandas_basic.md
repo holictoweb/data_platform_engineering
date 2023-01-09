@@ -17,6 +17,9 @@ pd.set_option('display.max_rows', None)
 pd.options.display.float_format = '{:.2f}'.format
 pd.set_option('mode.chained_assignment',  None)
 
+df.style.set_properties(**{'text-align': 'left'})
+
+
 # df에 바로 적용 
 heading_properties = [('font-size', '18px')]
 cell_properties = [('font-size', '16px')]
