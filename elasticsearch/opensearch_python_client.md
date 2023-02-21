@@ -87,7 +87,7 @@ oss_client.indices.open()
 # index 삭제 
 oss_client.indices.delete('dart_report_2')
 
-# copy index data 
+# copy index data (복사본 생성)
 request_body = {
   "source": {
     "index": "twitter"
@@ -96,7 +96,7 @@ request_body = {
     "index": "new_twitter"
   }
 }
-oss_client.indices.reindex(request_body)
+oss_client.reindex(request_body, timeout='20s')
 ```
 
 # alias
@@ -196,7 +196,7 @@ pprint(res['hits']['hits'])
 
 ```
 
-# Sort
+# Sort search display colums 
 
 ```python
 # match_phrase
@@ -243,7 +243,19 @@ request_body = {
     "snowball"
   ]
 }
-res = oss_client.analyze(body = request_body)
+res = oss_client.indices.analyze(body = request_body)
+```
+
+
+# insert data
+
+```python
+# mogo data to oss
+mongo_data = news_event_corpus.find({})
+
+for doc in mongo_data:
+    res_oss = oss_client.index(index='corpus_tagging_check', doc_type="_doc", id = doc['_id'], body=doc['source'])
+
 ```
 
 

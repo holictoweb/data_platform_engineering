@@ -33,6 +33,12 @@ display(df.style.set_table_attributes('style="font-size: 17px"'))
 
 ```
 
+
+# pandas display html 
+```py
+
+```
+
 # TYPE/DATA CHANGE
 ## 1. apply 
 

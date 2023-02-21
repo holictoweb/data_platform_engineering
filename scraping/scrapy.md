@@ -17,7 +17,7 @@
 ```bash
 pip install scrapy
 
-# 1. 프로젝트 생성
+# 1. 프로젝트 생성 ( 해당 이름의 dir이 생성됨. )
 scrapy startproject aicel_scrapy 
 
 # 2. 스파이더 생성
@@ -27,9 +27,11 @@ scrapy genspider thebell https://www.thebell.co.kr/free/content/Search.asp?keywo
 scrapy genspider droom_naver_meta https://finance.naver.com/item/board.naver?code=005930
 
 
+scrapy genspider google_trend https://trends.google.com/trends/trendingsearches/daily/rss?geo=KR
+
 # 3. robot.txt 
 settings.py 에서 ROBOTSTXT_OBEY 설정을 False로 변경
-scrapy crawl thebell
+scrapy crawl google_trend
 # 혹은 실행 시 설정
 scrapy crawl --set=ROBOTSTXT_OBEY='False' thebell
 

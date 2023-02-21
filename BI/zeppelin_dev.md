@@ -356,3 +356,64 @@ for idx in range(len(keyword_list)):
     '''
 angular_synonym = '<div class="row col-lg-12">' + angular_check + '</div>' 
 ```
+
+
+
+# 2. datapicker 
+
+```py
+date_picker = '''
+%angular
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+
+<script>
+    angular.element( function() {
+        angular.element( "#todatepicker" ).datepicker({ dateFormat: 'yy-mm-dd',changeMonth: true,changeYear: true, minDate: new Date(1900, 1, 1), yearRange: '1900:+00' });
+        angular.element( "#fromdatepicker" ).datepicker({ dateFormat: 'yy-mm-dd',changeMonth: true,changeYear: true,  minDate: new Date(1900, 1, 1), yearRange: '1900:+00' });
+    } );
+    
+    function changeMaxDate(val){
+         angular.element('#fromdatepicker').datepicker('option', 'maxDate', new Date(val));
+    }
+    
+    function changeMinDate(val){
+        angular.element('#todatepicker').datepicker('option', 'minDate', new Date(val));
+    } 
+        
+</script>
+
+<form class="form-inline">
+
+    <div style="text-align:center; margin-bottom:20px">
+    <button type="submit" class="btn btn-primary"  ng-click="z.runParagraph('20210728-173149_661735685')" > Load data </button>
+    </div>
+
+    <div style="text-align:center">
+
+            <label for="fromDateId" >From: </label>
+            <input type="text"  id="fromdatepicker" ng-model="fromDate" onChange="changeMinDate(this.value);" autocomplete="off"> </input>
+            <label for="toDateId"style="margin-left:5px"> to: </label>
+            <input type="text" id="todatepicker" ng-model="toDate" onChange="changeMaxDate(this.value);" autocomplete="off"> </input>
+
+            <label style="margin-left:30px"> City: </label>
+            <input type="text" ng-model="city"> </input>
+
+            <label for="genders" style="margin-left:30px">Gender:</label>
+            <select name="genders" id="genders" ng-model="gender">
+                <option value="both">Both</option>
+                <option value="F">Female</option>
+                <option value="M">Male</option>
+            </select>
+
+    </div>
+    <div style="text-align:center; margin-top:20px">
+    <button type="submit" class="btn btn-primary" ng-click="z.angularBind('toDate',toDate,'20210727-110725_1586668489');z.angularBind('fromDate',fromDate,'20210727-110725_1586668489');z.angularBind('city',city,'20210727-110725_1586668489');z.angularBind('gender',gender,'20210727-110725_1586668489');z.runParagraph('20210727-110725_1586668489');z.runParagraph('20210727-111144_1584153174')">Search</button>
+    </div>
+</form>
+'''
+
+print(date_picker)
+
+```

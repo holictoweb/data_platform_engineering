@@ -79,6 +79,9 @@ helm install aicel-kafka-ui . --namespace kafka-group
 
 helm install aicel-prefect . --namespace workflow 
 
+helm upgrade -f values.prd.yaml aicel-kafka-ui . -n kafka-group
+
+
 ## test config file 
 helm upgrade kafka-ui-init . \
 --namespace kafka-group \

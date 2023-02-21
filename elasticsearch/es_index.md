@@ -30,8 +30,50 @@
 - `"fielddata" : <true | false>` - 디폴트는 false 입니다. true로 설정하면 해당 필드의 색인된 텀 들을 가지고 **집계(aggregation)** 또는 **정렬(sorting)**이 가능합니다. 이 설정은 다이나믹 설정으로 이미 정의된 매핑에 true 또는 false로 다시 적용하는 것이 가능합니다.
 
 
+# partition shards 설저
+```py
+# 정보 조회
+oss_client.
+
+"number_of_shards": 1,
+"number_of_replicas": 0
+
+```
+# index python
+
+```python
+# check indesx exists
+if oss_client.indices.exists(index="naver_news"):
+    print('exists')
+
+# index 전체 리스트
+oss_client.indices.get_alias("*")
+
+# index 생성 
+oss_client.indices.create(index = 'example_index', body = request_body)
+
+# index 상세 조회 
+oss_client.indices.get('naver_news')
 
 
+# index close open 
+oss_client.indices.close()
+oss_client.indices.open()
+
+# index 삭제 
+oss_client.indices.delete('dart_report_2')
+
+# copy index data (복사본 생성)
+request_body = {
+  "source": {
+    "index": "twitter"
+  },
+  "dest": {
+    "index": "new_twitter"
+  }
+}
+oss_client.reindex(request_body, timeout='20s')
+```
 
 # opensarch 은전한닢 index 설정
 

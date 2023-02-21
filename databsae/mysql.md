@@ -1,6 +1,24 @@
 
 
+# pymysql 
+- sql 구문 안에 '가 존재 하는 경우 처리 
+```py
 
+
+news_buzz_sql = """
+select DATE_FORMAT(me.published_at, '%Y-%m-%d' ) as news_date 
+, count(me.news_url_md5) as news_cnt 
+from gn_naver_news_meta me
+join gn_news_company_table co
+	on me.news_url_md5 = co.news_url_md5 
+where co.company_code = %s 
+group by  DATE_FORMAT(me.published_at, '%Y-%m-%d' ) 
+order by DATE_FORMAT(me.published_at, '%Y-%m-%d' )  
+"""
+bf_cur.execute(news_buzz_sql, target_stock_code)
+df_news = pd.DataFrame(bf_cur.fetchall())
+
+```
 
 # USER
 
